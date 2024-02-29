@@ -1,22 +1,48 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import Image from "next/image";
 import img from "../Assets/astronaut-4106766.jpg";
 import Button from "../Components/Button.jsx";
 import "../login/login.css";
 import Link from "next/link";
 
-const page = () => {
+const Page = () => {
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      console.log("Successful");
+      const response = await fetch("http://localhost:8080/user", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+      const data = await response.json();
+      console.log(data);
+      setUser({ name: "", email: "", password: "" });
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
-    <div className="h-dvh flex flex-row items-center">
+    <div className="h-dvh flex flex-row items-center ">
       <div className="h-dvh w-dvw text-white-500 text-center p-10">
         <h1 className="text-lg p-5" id="title">
           Sign Up
         </h1>
-        <form className="mt-7">
+        <form className="mt-7 text-black" onSubmit={handleFormSubmit}>
           <input
             type="text"
-            name="user"
             className="text-input"
+            value={user.name}
+            onChange={(e) => setUser({ ...user, name: e.target.value })}
             placeholder="Name"
           />
           <br />
@@ -24,6 +50,8 @@ const page = () => {
             type="mail"
             name="Email"
             className="text-input"
+            value={user.email}
+            onChange={(e) => setUser({ ...user, email: e.target.value })}
             placeholder="Email"
           />
           <br />
@@ -31,10 +59,17 @@ const page = () => {
             type="password"
             name="password"
             className="text-input"
+            value={user.password}
+            onChange={(e) => setUser({ ...user, password: e.target.value })}
             placeholder="Passoword"
           />
           <div className="mt-28 btn">
-            <Button name="Sign Up" bg="white" color="black" />
+            <Button
+              name="Sign Up"
+              bg="white"
+              color="black"
+              onClick={handleFormSubmit}
+            />
             <Link href="/login">
               <Button name="Login" bg="#1A1A1A" color="#898989" />
             </Link>
@@ -50,4 +85,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

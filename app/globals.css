@@ -31,3 +31,6 @@ body {
     text-wrap: balance;
   }
 }
+button{
+  cursor: pointer;
+}
