@@ -5,7 +5,7 @@ const Button = (props) => {
       style={{ backgroundColor: props.bg, color: props.color }}
       onClick={props.onClick}
     >
-      {props.name}
+      <button type={props.type}>{props.name}</button>
     </div>
   );
 };

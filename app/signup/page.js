@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import img from "../Assets/astronaut-4106766.jpg";
 import Button from "../Components/Button.jsx";
 import "../login/login.css";
 import Link from "next/link";
@@ -25,6 +24,7 @@ const Page = () => {
         body: JSON.stringify(user),
       });
       const data = await response.json();
+
       console.log(data);
       setUser({ name: "", email: "", password: "" });
     } catch (err) {
@@ -47,7 +47,7 @@ const Page = () => {
           />
           <br />
           <input
-            type="mail"
+            type="email"
             name="Email"
             className="text-input"
             value={user.email}
