@@ -1,9 +1,11 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import Button from "../Components/Button.jsx";
 import "../login/login.css";
 import Link from "next/link";
+import dynamic from "next/dynamic";
+
+const Button = dynamic(() => import("../components/Button"), { ssr: false });
 
 const Page = () => {
   const [user, setUser] = useState({
