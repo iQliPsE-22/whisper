@@ -3,18 +3,20 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Button from "../Components/Button.jsx";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import "./login.css";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
   const router = useRouter();
+
   const [user, setUser] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("/login", {
+      console.log("Login Attempted");
+      const response = await fetch("http://localhost:8080/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -22,15 +24,18 @@ const Page = () => {
         body: JSON.stringify(user),
       });
       console.log(response);
-      if (!response.ok) {
-        throw new Error("Login failed");
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Login Successful");
+        router.push("/");
+        // Redirect to dashboard or handle success
+      } else {
+        console.error("Login Failed");
+        // Handle login failure (show error message, etc.)
       }
-      const data = await response.json();
-      localStorage.setItem("token", data.token);
-      console.log(data.token);
-      router.push("/"); // Navigate to the home page
     } catch (err) {
-      setError("Login failed. Please check your email and password.");
+      console.error("Login Failed:", err);
+      // Handle login failure (show error message, etc.)
     }
   };
 
@@ -48,6 +53,7 @@ const Page = () => {
             placeholder="Email"
             value={user.email}
             onChange={(e) => setUser({ ...user, email: e.target.value })}
+            required
           />
           <br />
           <input
@@ -57,9 +63,10 @@ const Page = () => {
             placeholder="Password"
             value={user.password}
             onChange={(e) => setUser({ ...user, password: e.target.value })}
+            required
           />
           <div className="mt-44">
-            <Button name="Login" bg="white" color="black" type="submit" />
+              <Button name="Login" bg="white" color="black" type="submit" />
             <Link href="/signup">
               <Button name="Sign Up" bg="#1A1A1A" color="#898989" />
             </Link>

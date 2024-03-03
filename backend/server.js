@@ -30,7 +30,7 @@ app.post("/user", async (req, res) => {
       }
     );
     user.token = token;
-    // user.password = undefined; //making password not send to db
+    user.password = undefined; //making password not send to db
 
     //cookie section
     const options = {
@@ -51,14 +51,13 @@ app.post("/user", async (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
-  console.log("IN LOGIN");
   try {
     const { email, password } = req.body;
     //find user in db
-    const user = await user.findOne({ email });
-    if (!user) res.status(500).json({ message: "USER NOT EXISt" });
-    if (!(await bcrypt.compare(password, user.password)))
-      res.status(500).json({ message: "Password not match" });
+    if (!email || !password)
+      return res.status(400).json({ message: "Please enter all fields" });
+    const user = await User.findOne({ email });
+    if (!user) res.status(500).json({ message: "USER NOT EXIST" });
     //match the password
     if (user && (await bcrypt.compare(password, user.password))) {
       const token = jwt.sign(
@@ -69,7 +68,7 @@ app.post("/login", async (req, res) => {
         }
       );
       user.token = token;
-      // user.password = undefined; //making password not send to db
+      user.password = undefined; //making password not send to db
 
       //send token in cookie
       //cookie section
@@ -82,7 +81,6 @@ app.post("/login", async (req, res) => {
         token,
         user,
       });
-      res.status(201).json({ message: "User Login successfully" });
     }
   } catch (error) {
     console.log(error);
