@@ -10,7 +10,7 @@ const Chat = (props) => {
 
   return (
     <div className="h-20 bg-[#282828] flex items-center mb-1">
-      <div id={isImageClicked} className="ml-4">
+      <div  className="ml-4">
         <Image
           src={props.imgSrc}
           alt="dp"
