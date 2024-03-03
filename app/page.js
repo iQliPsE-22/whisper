@@ -1,14 +1,15 @@
+"use client";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-const logo = dynamic(() => import("./Assets/whisper.svg"));
-const page = () => {
+import logo from "./Assets/whisper.svg";
+const Page = () => {
   return (
     <div className="h-screen w-screen text-center flex items-center justify-center">
       <div className="logo">
-        <Image priority src={logo} alt="logo" />
+        <Image src={logo} alt="logo" height={500} width={500} />
       </div>
     </div>
   );
 };
 
-export default page;
+export default Page;
