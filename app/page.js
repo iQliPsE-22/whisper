@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import logo from "./Assets/whisper.svg";
+import logo from "../public/whisper.svg";
 const Page = () => {
   return (
     <div className="h-screen w-screen text-center flex items-center justify-center">
