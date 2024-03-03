@@ -24,10 +24,6 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
-  ::-webkit-scrollbar-thumb {
-    background-color: #6c2828;
-    border-radius: 10px;
-  }
 }
 
 @layer utilities {

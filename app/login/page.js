@@ -5,7 +5,6 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import "./login.css";
 import { useRouter } from "next/navigation";
-import Header from "../components/Header";
 const Button = dynamic(() => import("../components/Button"), { ssr: false });
 
 const Page = () => {
@@ -29,7 +28,7 @@ const Page = () => {
       if (response.ok) {
         const data = await response.json();
         console.log("Login Successful");
-        router.push("/");
+        router.push("/home");
       } else {
         console.error("Login Failed");
       }
@@ -40,7 +39,6 @@ const Page = () => {
 
   return (
     <>
-      <Header />
       <div className="h-screen flex flex-row items-center">
         <div className="h-screen w-screen text-white text-center p-10">
           <h1 className="text-lg p-5" id="title">

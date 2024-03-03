@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import "../login/login.css";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-
 const Button = dynamic(() => import("../components/Button"), { ssr: false });
 
 const Page = () => {
@@ -33,56 +32,58 @@ const Page = () => {
     }
   };
   return (
-    <div className="h-dvh flex flex-row items-center ">
-      <div className="h-dvh w-dvw text-white-500 text-center p-10">
-        <h1 className="text-lg p-5" id="title">
-          Sign Up
-        </h1>
-        <form className="mt-7 text-black" onSubmit={handleFormSubmit}>
-          <input
-            type="text"
-            className="text-input"
-            value={user.name}
-            onChange={(e) => setUser({ ...user, name: e.target.value })}
-            placeholder="Name"
-          />
-          <br />
-          <input
-            type="email"
-            name="Email"
-            className="text-input"
-            value={user.email}
-            onChange={(e) => setUser({ ...user, email: e.target.value })}
-            placeholder="Email"
-          />
-          <br />
-          <input
-            type="password"
-            name="password"
-            className="text-input"
-            value={user.password}
-            onChange={(e) => setUser({ ...user, password: e.target.value })}
-            placeholder="Passoword"
-          />
-          <div className="mt-28 btn">
-            <Button
-              name="Sign Up"
-              bg="white"
-              color="black"
-              onClick={handleFormSubmit}
+    <>
+      <div className="h-dvh flex flex-row items-center">
+        <div className="h-dvh w-dvw text-white-500 text-center p-10">
+          <h1 className="text-lg p-5" id="title">
+            Sign Up
+          </h1>
+          <form className="mt-7 text-black" onSubmit={handleFormSubmit}>
+            <input
+              type="text"
+              className="text-input"
+              value={user.name}
+              onChange={(e) => setUser({ ...user, name: e.target.value })}
+              placeholder="Name"
             />
-            <Link href="/login">
-              <Button name="Login" bg="#1A1A1A" color="#898989" />
-            </Link>
-            <Button
-              name="Terms and Conditions"
-              bg="transparent"
-              color="#898989"
+            <br />
+            <input
+              type="email"
+              name="Email"
+              className="text-input"
+              value={user.email}
+              onChange={(e) => setUser({ ...user, email: e.target.value })}
+              placeholder="Email"
             />
-          </div>
-        </form>
+            <br />
+            <input
+              type="password"
+              name="password"
+              className="text-input"
+              value={user.password}
+              onChange={(e) => setUser({ ...user, password: e.target.value })}
+              placeholder="Passoword"
+            />
+            <div className="mt-28 btn">
+              <Button
+                name="Sign Up"
+                bg="white"
+                color="black"
+                onClick={handleFormSubmit}
+              />
+              <Link href="/login">
+                <Button name="Login" bg="#1A1A1A" color="#898989" />
+              </Link>
+              <Button
+                name="Terms and Conditions"
+                bg="transparent"
+                color="#898989"
+              />
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
