@@ -24,6 +24,10 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+  ::-webkit-scrollbar-thumb {
+    background-color: #6c2828;
+    border-radius: 10px;
+  }
 }
 
 @layer utilities {
@@ -34,7 +38,7 @@ body {
 button {
   cursor: pointer;
 }
-.logo{
+.logo {
   animation: flash 3s infinite;
   transition: 0.5s;
 }
@@ -43,7 +47,7 @@ button {
     opacity: 0.5;
   }
   50% {
-    opacity:1;
+    opacity: 1;
     transform: scale(1.1);
   }
   100% {
