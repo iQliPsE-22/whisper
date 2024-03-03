@@ -1,7 +1,12 @@
+import logo from "./Assets/whisper.svg";
+import Image from "next/image";
+
 const page = () => {
   return (
-    <div class="text-center">
-      <h1 class="text-lg">iQlipse</h1>
+    <div className="h-screen w-screen text-center flex items-center justify-center">
+      <div className="logo">
+        <Image priority src={logo} alt = "logo"/>
+      </div>
     </div>
   );
 };

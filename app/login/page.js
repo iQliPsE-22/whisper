@@ -1,10 +1,12 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import Button from "../Components/Button.jsx";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import "./login.css";
 import { useRouter } from "next/navigation";
+
+const Button = dynamic(() => import("../components/Button"), { ssr: false });
 
 const Page = () => {
   const router = useRouter();
@@ -28,14 +30,11 @@ const Page = () => {
         const data = await response.json();
         console.log("Login Successful");
         router.push("/");
-        // Redirect to dashboard or handle success
       } else {
         console.error("Login Failed");
-        // Handle login failure (show error message, etc.)
       }
     } catch (err) {
       console.error("Login Failed:", err);
-      // Handle login failure (show error message, etc.)
     }
   };
 
@@ -66,7 +65,7 @@ const Page = () => {
             required
           />
           <div className="mt-44">
-              <Button name="Login" bg="white" color="black" type="submit" />
+            <Button name="Login" bg="white" color="black" type="submit" />
             <Link href="/signup">
               <Button name="Sign Up" bg="#1A1A1A" color="#898989" />
             </Link>

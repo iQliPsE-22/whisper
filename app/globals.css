@@ -31,6 +31,22 @@ body {
     text-wrap: balance;
   }
 }
-button{
+button {
   cursor: pointer;
+}
+.logo{
+  animation: flash 3s infinite;
+  transition: 0.5s;
+}
+@keyframes flash {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity:1;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0.5;
+  }
 }

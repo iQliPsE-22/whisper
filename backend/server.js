@@ -53,9 +53,6 @@ app.post("/user", async (req, res) => {
 app.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
-    //find user in db
-    if (!email || !password)
-      return res.status(400).json({ message: "Please enter all fields" });
     const user = await User.findOne({ email });
     if (!user) res.status(500).json({ message: "USER NOT EXIST" });
     //match the password
