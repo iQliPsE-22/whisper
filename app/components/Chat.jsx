@@ -10,12 +10,12 @@ const Chat = (props) => {
 
   return (
     <div className="h-20 bg-[#282828] flex items-center mb-1">
-      <div  className="ml-4">
+      <div className="ml-4">
         <Image
           src={props.imgSrc}
           alt="dp"
-          width={isImageClicked ? 200 : 60}
-          height={isImageClicked ? 200 : 60}
+          width={isImageClicked ? 200 : 50}
+          height={isImageClicked ? 200 : 50}
           className="rounded-full"
           quality={100}
           priority={true}

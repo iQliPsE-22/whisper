@@ -83,7 +83,16 @@ app.post("/login", async (req, res) => {
     console.log(error);
   }
 });
-
+app.post("/search", async (req, res) => {
+  try {
+    const { name } = req.body;
+    const user = await User.findOne({ name });
+    if (!user) res.status(500).json({ message: "User not found" });
+    res.status(200).json(user);
+  } catch (error) {
+    console.log(error);
+  }
+});
 app.listen(8080, () => {
   console.log("Server is running on port 8080");
 });

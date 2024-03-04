@@ -16,13 +16,16 @@ const Page = () => {
     e.preventDefault();
     try {
       console.log("Successful");
-      const response = await fetch("http://localhost:8080/user", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user),
-      });
+      const response = await fetch(
+        "https://server-lovat-sigma.vercel.app/user",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(user),
+        }
+      );
       const data = await response.json();
 
       console.log(data);
