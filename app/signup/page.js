@@ -16,7 +16,7 @@ const Page = () => {
     e.preventDefault();
     try {
       console.log("Successful");
-      const response = await fetch("https://server-hush.vercel.app/user", {
+      const response = await fetch("http://localhost:3000/user", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

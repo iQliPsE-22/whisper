@@ -17,7 +17,7 @@ const Page = () => {
     e.preventDefault();
     try {
       console.log("Login Attempted");
-      const response = await fetch("http://localhost:8080/login", {
+      const response = await fetch("http://localhost:3000/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
