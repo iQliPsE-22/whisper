@@ -17,13 +17,16 @@ const Page = () => {
     e.preventDefault();
     try {
       console.log("Login Attempted");
-      const response = await fetch("http://localhost:3000/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user),
-      });
+      const response = await fetch(
+        "https://whisper-and-hush.vercel.app/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(user),
+        }
+      );
       console.log(response);
       if (response.ok) {
         const data = await response.json();
