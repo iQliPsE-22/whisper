@@ -18,7 +18,7 @@ const Page = () => {
     try {
       console.log("Login Attempted");
       const response = await fetch(
-        "https://whisper-and-hush.vercel.app/login",
+        "server-ew2dyz0r9-iqlipse-22s-projects.vercel.app/login",
         {
           method: "POST",
           headers: {

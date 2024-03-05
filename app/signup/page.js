@@ -16,13 +16,16 @@ const Page = () => {
     e.preventDefault();
     try {
       console.log("Successful");
-      const response = await fetch("https://whisper-and-hush.vercel.app/user", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user),
-      });
+      const response = await fetch(
+        "server-ew2dyz0r9-iqlipse-22s-projects.vercel.app/user",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(user),
+        }
+      );
       const data = await response.json();
 
       console.log(data);
