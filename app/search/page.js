@@ -24,13 +24,13 @@ const Page = () => {
 
   const handleSearch = async (e) => {
     e.preventDefault();
-    const findFriend = friends.find((friend) => friend.name === name);
-    if (findFriend) {
-      console.log("Friend found:", findFriend);
+    const foundFriends = friends.filter((friend) => friend.name === name);
+    if (foundFriends.length > 0) {
+      console.log("Friends found:", foundFriends);
       setFound(true);
-      setFoundFriend(findFriend);
+      setFoundFriend(foundFriends);
     } else {
-      console.log("Friend not found");
+      console.log("Friends not found");
     }
   };
 
@@ -39,18 +39,21 @@ const Page = () => {
       <form onSubmit={handleSearch}>
         <input
           type="text"
-          className="w-dvw h-12 text-black text-center"
+          className="w-dvw h-12 text-black text-center mb-1"
           onChange={(e) => setName(e.target.value)}
         />
         <Button name="Search" bg="grey" color="black" type="submit" />
       </form>
-      {found && (
-        <Chat
-          imgSrc={foundFriend.imgSrc}
-          userName={foundFriend.name}
-          bg="indigo-600"
-        />
-      )}
+      {found &&
+        foundFriend.map((friend) => (
+          <Chat
+            key={friend._id}
+            imgSrc={friend.imgSrc}
+            userName={friend.name}
+            bg="rose-600"
+          />
+        ))}
+
       {Object.values(friends).map((friend) => {
         return (
           <Chat
