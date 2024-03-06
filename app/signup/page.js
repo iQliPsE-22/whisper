@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import "../login/login.css";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+
 const Button = dynamic(() => import("../components/Button"), { ssr: false });
 
 const Page = () => {
@@ -11,25 +12,26 @@ const Page = () => {
     email: "",
     password: "",
   });
+  const [userExists, setUserExists] = useState(false); // Add userExists state
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
       console.log("Successful");
-      const response = await fetch(
-        "server-ew2dyz0r9-iqlipse-22s-projects.vercel.app/user",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(user),
-        }
-      );
+      const response = await fetch("http://localhost:3000/user", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
       const data = await response.json();
-
       console.log(data);
       setUser({ name: "", email: "", password: "" });
+      if (data.message === "User already exists") {
+        console.log("User exists");
+        setUserExists(true);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -66,8 +68,9 @@ const Page = () => {
               className="text-input"
               value={user.password}
               onChange={(e) => setUser({ ...user, password: e.target.value })}
-              placeholder="Passoword"
+              placeholder="Password"
             />
+            {userExists && <p className="text-red-500">User already exists</p>}
             <div className="mt-28 btn">
               <Button
                 name="Sign Up"
