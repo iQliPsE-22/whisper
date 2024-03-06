@@ -17,20 +17,7 @@ const friend2 = {
   email: "jane@gmail.com",
   dp: "/pic.jpg",
 };
-const handleSearch = async () => {
-  try {
-    const response = await fetch("http://localhost:8080/search", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(user),
-    });
-    // Handle the response here
-  } catch (error) {
-    // Handle any errors here
-  }
-};
+
 const page = () => {
   return (
     <>

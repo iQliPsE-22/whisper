@@ -8,8 +8,10 @@ const Chat = (props) => {
     setIsImageClicked(!isImageClicked);
   };
 
+  const bgColor = props.bg || "gray-800";
+
   return (
-    <div className="h-20 bg-[#282828] flex items-center mb-1">
+    <div className={`h-20 bg-${bgColor} flex items-center mb-1`}>
       <div className="ml-4">
         <Image
           src={props.imgSrc}
