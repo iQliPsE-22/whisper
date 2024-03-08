@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Button from "./../components/Button";
 import Chat from "./../components/Chat";
+import Header from "./../components/Header";
 
 const Page = () => {
   const [name, setName] = useState("");
@@ -36,7 +37,8 @@ const Page = () => {
 
   return (
     <div>
-      <form onSubmit={handleSearch}>
+      <Header />
+      <form onSubmit={handleSearch} className="mt-1">
         <input
           type="text"
           className="w-dvw h-12 text-black text-center mb-1"
@@ -50,7 +52,7 @@ const Page = () => {
             key={friend._id}
             imgSrc={friend.imgSrc}
             userName={friend.name}
-            bg="rose-600"
+            bg="bg-[#e11d48]"
           />
         ))}
 
