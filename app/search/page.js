@@ -3,7 +3,11 @@ import React, { useState, useEffect } from "react";
 import Button from "./../components/Button";
 import Chat from "./../components/Chat";
 import Header from "./../components/Header";
-
+import img from "../../public/pic.jpg";
+const ConstFriend = {
+  imgSrc:"/pic.jpg",
+  name: "John Doe",
+};
 const Page = () => {
   const [name, setName] = useState("");
   const [friends, setFriend] = useState({});
@@ -46,7 +50,12 @@ const Page = () => {
         />
         <Button name="Search" bg="grey" color="black" type="submit" />
       </form>
-
+      <Chat
+        imgSrc={ConstFriend.imgSrc}
+        userName={ConstFriend.name}
+        bg="bg-[#e11d48]"
+        show={true}
+      />
       {found &&
         foundFriend.map((friend) => (
           <div key={friend._id}>
