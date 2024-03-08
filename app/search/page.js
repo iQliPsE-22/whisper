@@ -46,14 +46,17 @@ const Page = () => {
         />
         <Button name="Search" bg="grey" color="black" type="submit" />
       </form>
+
       {found &&
         foundFriend.map((friend) => (
-          <Chat
-            key={friend._id}
-            imgSrc={friend.imgSrc}
-            userName={friend.name}
-            bg="bg-[#e11d48]"
-          />
+          <div key={friend._id}>
+            <Chat
+              imgSrc={friend.imgSrc}
+              userName={friend.name}
+              bg="bg-[#e11d48]"
+              show={true}
+            />
+          </div>
         ))}
 
       {Object.values(friends).map((friend) => {
@@ -62,6 +65,7 @@ const Page = () => {
             key={friend._id}
             imgSrc={friend.imgSrc}
             userName={friend.name}
+            show={true}
           />
         );
       })}

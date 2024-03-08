@@ -13,6 +13,7 @@ const Page = () => {
     password: "",
   });
   const [userExists, setUserExists] = useState(false); // Add userExists state
+  const [userNameExists, setUserNameExists] = useState(false); // Add userExists state
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -31,6 +32,9 @@ const Page = () => {
       if (data.message === "User already exists") {
         console.log("User exists");
         setUserExists(true);
+      } else if (data.message === "UserName already exists") {
+        console.log("UserName exists");
+        setUserNameExists(true);
       }
     } catch (err) {
       console.log(err);
@@ -70,7 +74,10 @@ const Page = () => {
               onChange={(e) => setUser({ ...user, password: e.target.value })}
               placeholder="Password"
             />
-            {userExists && <p className="text-red-500">User already exists</p>}
+            {userExists && <p className="text-red-500">Email already exists</p>}
+            {userNameExists && (
+              <p className="text-red-500">UserName already exists</p>
+            )}
             <div className="mt-28 btn">
               <Button
                 name="Sign Up"
