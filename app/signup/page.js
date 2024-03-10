@@ -28,6 +28,7 @@ const Page = () => {
       });
       const data = await response.json();
       console.log(data);
+
       setUser({ name: "", email: "", password: "" });
       if (data.message === "User already exists") {
         console.log("User exists");

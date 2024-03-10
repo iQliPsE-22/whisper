@@ -2,7 +2,7 @@
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import logo from "../public/whisper.svg";
 import Header from "./components/Header";
 const Page = () => {
