@@ -14,7 +14,7 @@ const imageStyle = {
 const Page = () => {
   const { userData, setUserData } = useUser();
   // const [user, setUser] = useState(userData.user);
-  console.log(userData.user.name);
+  console.log(userData.user.token);
   const [previewImage, setPreviewImage] = useState(null);
   const handleFormSubmit = () => {};
   return (
