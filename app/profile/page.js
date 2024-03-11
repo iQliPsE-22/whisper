@@ -12,9 +12,9 @@ const imageStyle = {
 };
 
 const Page = () => {
-  // const { userData, setUserData } = useUser();
+  const { userData, setUserData } = useUser();
   // const [user, setUser] = useState(userData.user);
-
+  console.log(userData);
   const [previewImage, setPreviewImage] = useState(null);
   const handleFormSubmit = () => {};
   return (
