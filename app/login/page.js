@@ -5,6 +5,8 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import "./login.css";
 import { useRouter } from "next/navigation";
+import { useUser } from "../UserContext";
+
 const Button = dynamic(() => import("../components/Button"), { ssr: false });
 
 const Page = () => {
@@ -12,6 +14,10 @@ const Page = () => {
 
   const [user, setUser] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
+
+  const { userData, setUserData } = useUser();
+
+  const fetchUser = async (e) => {};
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -28,6 +34,8 @@ const Page = () => {
       if (response.ok) {
         const data = await response.json();
         console.log("Login Successful");
+        setUserData(data);
+        console.log("userData", userData);
         router.push("/home");
       } else {
         console.error("Login Failed");

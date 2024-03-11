@@ -4,6 +4,7 @@ import profile from "/public/profile.jpg";
 import Image from "next/image";
 import "../login/login.css";
 import Button from "../components/Button";
+import { useUser } from "../UserContext";
 
 const imageStyle = {
   borderRadius: "50%",
@@ -12,6 +13,8 @@ const imageStyle = {
 
 const Page = () => {
   const [user, setUser] = useState({});
+  const { userData, setUserData } = useUser();
+  console.log("userData", userData);
   const [previewImage, setPreviewImage] = useState(null);
   const handleFormSubmit = () => {};
   return (
@@ -54,7 +57,7 @@ const Page = () => {
             <input
               type="text"
               className="text-input"
-              value={user.name}
+              value={userData.user.name}
               onChange={(e) => setUser({ ...user, name: e.target.value })}
               placeholder="Name"
             />
@@ -63,7 +66,7 @@ const Page = () => {
               type="email"
               name="Email"
               className="text-input"
-              value={user.email}
+              value={userData.user.email}
               onChange={(e) => setUser({ ...user, email: e.target.value })}
               placeholder="Email"
             />
@@ -72,7 +75,7 @@ const Page = () => {
               type="password"
               name="password"
               className="text-input"
-              value={user.password}
+              value={userData.user.password}
               onChange={(e) => setUser({ ...user, password: e.target.value })}
               placeholder="Password"
             />
