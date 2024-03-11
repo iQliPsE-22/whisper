@@ -5,14 +5,20 @@ const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [userData, setUserData] = useState(() => {
-    const storedUserData = localStorage.getItem("userData");
-    return storedUserData
-      ? JSON.parse(storedUserData)
-      : { name: "", email: "", password: "" };
+    if (typeof window !== "undefined") {
+      const storedUserData = localStorage.getItem("userData");
+      return storedUserData
+        ? JSON.parse(storedUserData)
+        : { name: "", email: "", password: "" };
+    } else {
+      return { name: "", email: "", password: "" };
+    }
   });
 
   useEffect(() => {
-    localStorage.setItem("userData", JSON.stringify(userData));
+    if (typeof window !== "undefined") {
+      localStorage.setItem("userData", JSON.stringify(userData));
+    }
   }, [userData]);
 
   return (
