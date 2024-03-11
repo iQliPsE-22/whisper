@@ -12,12 +12,9 @@ const imageStyle = {
 };
 
 const Page = () => {
-  // const { userData, setUserData } = useUser();
-  const [user, setUser] = useState({ name: "", email: "", password: "" });
-  // if (userData.user === undefined) {
-  //   setUser({ name: "", email: "", password: "" });
-  // }
-  // console.log("userData", userData);
+  const { userData, setUserData } = useUser();
+  const [user, setUser] = useState(userData.user);
+
   const [previewImage, setPreviewImage] = useState(null);
   const handleFormSubmit = () => {};
   return (
@@ -78,7 +75,7 @@ const Page = () => {
               type="password"
               name="password"
               className="text-input"
-              value={user.password}
+              value={userData.user.password}
               onChange={(e) => setUser({ ...user, password: e.target.value })}
               placeholder="Password"
             />
