@@ -14,7 +14,7 @@ const imageStyle = {
 const Page = () => {
   const { userData, setUserData } = useUser();
   // const [user, setUser] = useState(userData.user);
-  console.log(userData.user);
+  console.log(userData.user.name);
   const [previewImage, setPreviewImage] = useState(null);
   const handleFormSubmit = () => {};
   return (
@@ -57,7 +57,7 @@ const Page = () => {
             <input
               type="text"
               className="text-input"
-              value={userData.user.name}
+              value="hello"
               // onChange={(e) => setUser({name: e.target.value })}
               placeholder="Name"
             />
