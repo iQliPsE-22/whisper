@@ -14,10 +14,13 @@ const imageStyle = {
 const Page = () => {
   const { userData, setUserData } = useUser();
   const [user, setUser] = useState({
-    name: userData.user.name+"hey" || "",
-    email: userData.user.email || "",
+    name: userData.user.name + " " || "",
+    email: userData.user.email + " " || "",
     password: "",
   });
+  if (userData.user === undefined) {
+    setUser({ name: "", email: "", password: "" });
+  }
   console.log("userData", userData);
   const [previewImage, setPreviewImage] = useState(null);
   const handleFormSubmit = () => {};
