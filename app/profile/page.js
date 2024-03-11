@@ -14,7 +14,7 @@ const imageStyle = {
 const Page = () => {
   const { userData, setUserData } = useUser();
   const [user, setUser] = useState({
-    name: userData.user.name || "",
+    name: userData.user.name+"hey" || "",
     email: userData.user.email || "",
     password: "",
   });
