@@ -57,7 +57,7 @@ const Page = () => {
             <input
               type="text"
               className="text-input"
-              value="hello"
+              value={userData.user.name}
               // onChange={(e) => setUser({name: e.target.value })}
               placeholder="Name"
             />
