@@ -3,6 +3,7 @@ import logo from "../../public/whisper.svg";
 import profile from "/public/profile.jpg";
 import Link from "next/link";
 import Image from "next/image";
+
 const Header = () => {
   const imageStyle = {
     borderRadius: "50%",
