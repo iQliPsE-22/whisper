@@ -14,6 +14,7 @@ const imageStyle = {
 const Page = () => {
   const { userData, setUserData } = useUser();
   const [user, setUser] = useState({
+    name: userData.user?.name || "",
     email: userData.user?.email || "",
   });
   const [previewImage, setPreviewImage] = useState(null);
