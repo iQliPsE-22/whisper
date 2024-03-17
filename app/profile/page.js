@@ -5,6 +5,7 @@ import Image from "next/image";
 import "../login/login.css";
 import Button from "../components/Button";
 import { useUser } from "../UserContext";
+import { imagefrombuffer } from "imagefrombuffer";
 
 const imageStyle = {
   borderRadius: "50%",
@@ -13,12 +14,63 @@ const imageStyle = {
 
 const Page = () => {
   const { userData, setUserData } = useUser();
+
   const [user, setUser] = useState({
     name: userData.user?.name || "",
     email: userData.user?.email || "",
+    password: userData.user?.password || "",
+    profilePicture: userData.user?.profilePicture || null,
   });
-  const [previewImage, setPreviewImage] = useState(null);
-  const handleFormSubmit = () => {};
+  const [previewImage, setPreviewImage] = useState(
+    imagefrombuffer({
+      type: user.profilePicture?.contentType,
+      data: user.profilePicture?.data?.data,
+    })
+  );
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+      formData.append("name", user.name);
+      formData.append("email", user.email);
+      formData.append("password", user.password);
+      formData.append("profilePicture", e.target[0].files[0]);
+
+      const response = await fetch(
+        `http://localhost:3000/user/${userData.user._id}`,
+        {
+          method: "PUT",
+          body: formData,
+        }
+      );
+      const data = await response.json();
+      console.log("data", data);
+      setUserData({
+        user: { ...userData.user, profilePicture: previewImage, ...user },
+      });
+    } catch (error) {
+      console.error("Error updating user data:", error);
+    }
+  };
+  const handleDeleteAccount = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/user/${userData.user._id}`,
+        {
+          method: "DELETE",
+        }
+      );
+      const data = await response.json();
+      console.log("Account deleted:", data);
+      if (data.message === "User deleted successfully") {
+        window.location.href = "/login";
+      }
+    } catch (error) {
+      console.error("Error deleting account:", error);
+    }
+  };
+
   return (
     <>
       <div
@@ -28,39 +80,50 @@ const Page = () => {
         <h1 className="text-lg p-5" id="title">
           Profile
         </h1>
-        <div style={{ borderRadius: "50%" }}>
-          {previewImage ? (
-            <Image
-              src={URL.createObjectURL(previewImage)} // Use createObjectURL to display the selected image
-              alt="preview"
-              height={250}
-              width={250}
-              style={imageStyle}
-            />
-          ) : (
-            <Image
-              src={profile}
-              alt="logo"
-              height={250}
-              width={250}
-              quality={100}
-              style={imageStyle}
-            />
+        <div>
+          {user.profilePicture && (
+            <div suppressHydrationWarning>
+              <Image
+                src={previewImage || profile}
+                alt="Profile"
+                height={250}
+                width={250}
+                style={imageStyle}
+              />
+            </div>
           )}
         </div>
+
         <div className="h-dvh w-dvw text-white-500 text-center p-10">
           <form className="mt-7 text-black" onSubmit={handleFormSubmit}>
             <input
               type="file"
               className="text-center"
-              onChange={(e) => setPreviewImage(e.target.files[0])}
+              onChange={(e) => {
+                const file = e.target.files[0];
+                if (file && file.size > 15000) {
+                  alert(
+                    "Image size exceeds 15KB. Please choose a smaller image."
+                  );
+                  e.target.value = null; // Clear the file input
+                  return;
+                }
+
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                  setUser({ ...user, profilePicture: reader.result });
+                  setPreviewImage(reader.result);
+                };
+                reader.readAsDataURL(file);
+              }}
             />
+
             <br />
             <input
               type="text"
               className="text-input"
               value={user.name}
-              onChange={(e) => setUser({ name: e.target.value })}
+              onChange={(e) => setUser({ ...user, name: e.target.value })}
               placeholder="Name"
             />
             <br />
@@ -69,7 +132,7 @@ const Page = () => {
               name="Email"
               className="text-input"
               value={user.email}
-              onChange={(e) => setUser({ email: e.target.value })}
+              onChange={(e) => setUser({ ...user, email: e.target.value })}
               placeholder="Email"
             />
             <br />
@@ -78,7 +141,7 @@ const Page = () => {
               name="password"
               className="text-input"
               value={user.password}
-              onChange={(e) => setUser({ password: e.target.value })}
+              onChange={(e) => setUser({ ...user, password: e.target.value })}
               placeholder="Password"
             />
 
@@ -86,6 +149,12 @@ const Page = () => {
               <Button name="Save" bg="white" color="black" type="submit" />
             </div>
           </form>
+          <Button
+            name="Delete Account"
+            onClick={handleDeleteAccount}
+            bg="rgb(255, 0, 0)"
+            color="white"
+          />
         </div>
       </div>
     </>
