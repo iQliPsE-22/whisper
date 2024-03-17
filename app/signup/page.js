@@ -3,15 +3,18 @@ import React, { useState } from "react";
 import "../login/login.css";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-
+import Image from "next/image";
 const Button = dynamic(() => import("../components/Button"), { ssr: false });
-
+import profile from "/public/profile.jpg";
 const Page = () => {
   const [user, setUser] = useState({
+    profilePicture: null,
     name: "",
     email: "",
     password: "",
   });
+
+  const [previewImage, setPreviewImage] = useState(null);
   const [userExists, setUserExists] = useState(false); // Add userExists state
   const [userNameExists, setUserNameExists] = useState(false); // Add userExists state
 
@@ -19,27 +22,44 @@ const Page = () => {
     e.preventDefault();
     try {
       console.log("Successful");
+      const formData = new FormData();
+      formData.append("profilePicture", user.profilePicture);
+      formData.append("name", user.name);
+      formData.append("email", user.email);
+      formData.append("password", user.password);
       const response = await fetch("http://localhost:3000/user", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user),
+        body: formData,
       });
       const data = await response.json();
       console.log(data);
 
-      setUser({ name: "", email: "", password: "" });
+      setUser({ profilePicture: null, name: "", email: "", password: "" });
       if (data.message === "User already exists") {
         console.log("User exists");
         setUserExists(true);
       } else if (data.message === "UserName already exists") {
         console.log("UserName exists");
         setUserNameExists(true);
+      } else {
+        setUserExists(false);
+        setUserNameExists(false);
       }
     } catch (err) {
       console.log(err);
     }
+  };
+  const imageStyle = {
+    borderRadius: "50%",
+    border: "2px solid white",
+  };
+  const handleProfilePictureChange = (e) => {
+    const file = e.target.files[0];
+    setPreviewImage(file); // Set the previewImage with the object URL
+    setUser((prevUser) => ({
+      ...prevUser,
+      profilePicture: file,
+    }));
   };
 
   return (
@@ -49,7 +69,34 @@ const Page = () => {
           <h1 className="text-lg p-5" id="title">
             Sign Up
           </h1>
+          <div className="flex justify-center">
+            {previewImage ? (
+              <Image
+                src={URL.createObjectURL(previewImage)} // Use createObjectURL to display the selected image
+                alt="preview"
+                height={250}
+                width={250}
+                style={imageStyle}
+              />
+            ) : (
+              <Image
+                src={profile}
+                alt="logo"
+                height={250}
+                width={250}
+                quality={100}
+                style={imageStyle}
+              />
+            )}
+          </div>
           <form className="mt-7 text-black" onSubmit={handleFormSubmit}>
+            <input
+              type="file"
+              accept="image/*"
+              className="text-center"
+              onChange={handleProfilePictureChange}
+            />
+            <br />
             <input
               type="text"
               className="text-input"

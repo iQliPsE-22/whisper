@@ -1,4 +1,5 @@
-'use client';
+"use client";
+// userContext.js
 import React, { createContext, useContext, useState, useEffect } from "react";
 
 const UserContext = createContext();
@@ -9,9 +10,9 @@ export const UserProvider = ({ children }) => {
       const storedUserData = localStorage.getItem("userData");
       return storedUserData
         ? JSON.parse(storedUserData)
-        : { name: "", email: "", password: "" };
+        : { name: "", email: "", password: "", profilePicture: null };
     } else {
-      return { name: "", email: "", password: "" };
+      return { name: "", email: "", password: "", profilePicture: null };
     }
   });
 
@@ -19,6 +20,7 @@ export const UserProvider = ({ children }) => {
     if (typeof window !== "undefined") {
       localStorage.setItem("userData", JSON.stringify(userData));
     }
+    console.log(userData);
   }, [userData]);
 
   return (
