@@ -4,10 +4,8 @@ import Button from "./../components/Button";
 import Chat from "./../components/Chat";
 import Header from "./../components/Header";
 import img from "../../public/pic.jpg";
-const ConstFriend = {
-  imgSrc:"/pic.jpg",
-  name: "John Doe",
-};
+import { imagefrombuffer } from "imagefrombuffer";
+
 const Page = () => {
   const [name, setName] = useState("");
   const [friends, setFriend] = useState({});
@@ -50,17 +48,15 @@ const Page = () => {
         />
         <Button name="Search" bg="grey" color="black" type="submit" />
       </form>
-      <Chat
-        imgSrc={ConstFriend.imgSrc}
-        userName={ConstFriend.name}
-        bg="bg-[#e11d48]"
-        show={true}
-      />
+
       {found &&
         foundFriend.map((friend) => (
           <div key={friend._id}>
             <Chat
-              imgSrc={friend.imgSrc}
+              imgSrc={imagefrombuffer({
+                type: friend.profilePicture?.contentType,
+                data: friend.profilePicture?.data?.data,
+              })}
               userName={friend.name}
               bg="bg-[#e11d48]"
               show={true}
@@ -72,7 +68,10 @@ const Page = () => {
         return (
           <Chat
             key={friend._id}
-            imgSrc={friend.imgSrc}
+            imgSrc={imagefrombuffer({
+              type: friend.profilePicture?.contentType,
+              data: friend.profilePicture?.data?.data,
+            })}
             userName={friend.name}
             show={true}
           />
