@@ -11,9 +11,11 @@ const Page = () => {
   const [friends, setFriend] = useState({});
   const [found, setFound] = useState(false);
   const [foundFriend, setFoundFriend] = useState({});
+
   useEffect(() => {
     fetchUser();
   }, []);
+
   const fetchUser = async () => {
     try {
       const response = await fetch("http://localhost:3000/search");
@@ -54,8 +56,8 @@ const Page = () => {
           <div key={friend._id}>
             <Chat
               imgSrc={imagefrombuffer({
-                type: friend.profilePicture?.contentType,
-                data: friend.profilePicture?.data?.data,
+                type: friend.profilePicture?.contentType || "image/jpeg",
+                data: friend.profilePicture?.data?.data || img,
               })}
               userName={friend.name}
               bg="bg-[#e11d48]"

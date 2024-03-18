@@ -11,8 +11,8 @@ const Header = () => {
   const user = userData.user;
   const [previewImage, setPreviewImage] = useState(
     imagefrombuffer({
-      type: user.profilePicture?.contentType,
-      data: user.profilePicture?.data?.data,
+      type: user?.profilePicture?.contentType || "image/jpeg",
+      data: user?.profilePicture?.data?.data || profile,
     })
   );
   const imageStyle = {

@@ -9,6 +9,10 @@ const Chat = (props) => {
     setIsImageClicked(!isImageClicked);
   };
 
+  const handleClick = () => {
+    console.log(props.userName);
+  };
+
   const bgColor = props.bg || "bg-[#282828]";
   const btnColor =
     props.bg === "bg-[#e11d48]" ? "bg-[#282828]" : "bg-[#e11d48]";
@@ -16,6 +20,7 @@ const Chat = (props) => {
   return (
     <div
       className={`h-20 ${bgColor} flex items-center justify-between mb-1 cursor-pointer`}
+      onClick={handleClick}
     >
       <div className="ml-4 flex items-center">
         <Image
