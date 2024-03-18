@@ -1,5 +1,7 @@
 <h2>This is a chatting web Application made with <em>NEXT.js</em> ,<em>Express.js</em>,<em>Node.js</> and <em>MongoDB</>.</h2>
-![image](https://github.com/iQliPsE-22/whisper/assets/91374730/f3ddea82-4a8b-4463-9851-ece4a03e3c2d)
+
+  ![image](https://github.com/iQliPsE-22/whisper/assets/91374730/482416bd-b82d-4f69-a4bc-00296a688660)
+
 
 ![image](https://github.com/iQliPsE-22/whisper/assets/91374730/10db6ccc-fb8b-4891-bad7-f9539f6fc272)
 
