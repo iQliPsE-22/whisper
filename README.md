@@ -1,5 +1,9 @@
 <<<<<<< HEAD
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a chatting web Application made with NEXT.js ,Express.js,Node.js and MongoDB.
+![image](https://github.com/iQliPsE-22/whisper/assets/91374730/f3ddea82-4a8b-4463-9851-ece4a03e3c2d)
+
+![image](https://github.com/iQliPsE-22/whisper/assets/91374730/10db6ccc-fb8b-4891-bad7-f9539f6fc272)
+
 
 ## Getting Started
 
