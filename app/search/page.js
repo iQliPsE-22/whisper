@@ -4,18 +4,19 @@ import Button from "./../components/Button";
 import Chat from "./../components/Chat";
 import Header from "./../components/Header";
 import img from "../../public/pic.jpg";
-const ConstFriend = {
-  imgSrc:"/pic.jpg",
-  name: "John Doe",
-};
+import { imagefrombuffer } from "imagefrombuffer";
+import { Link } from "next/link";
+
 const Page = () => {
   const [name, setName] = useState("");
   const [friends, setFriend] = useState({});
   const [found, setFound] = useState(false);
   const [foundFriend, setFoundFriend] = useState({});
+
   useEffect(() => {
     fetchUser();
   }, []);
+
   const fetchUser = async () => {
     try {
       const response = await fetch("http://localhost:3000/search");
@@ -40,7 +41,7 @@ const Page = () => {
   };
 
   return (
-    <div>
+    <>
       <Header />
       <form onSubmit={handleSearch} className="mt-1">
         <input
@@ -50,17 +51,15 @@ const Page = () => {
         />
         <Button name="Search" bg="grey" color="black" type="submit" />
       </form>
-      <Chat
-        imgSrc={ConstFriend.imgSrc}
-        userName={ConstFriend.name}
-        bg="bg-[#e11d48]"
-        show={true}
-      />
+
       {found &&
         foundFriend.map((friend) => (
           <div key={friend._id}>
             <Chat
-              imgSrc={friend.imgSrc}
+              imgSrc={imagefrombuffer({
+                type: friend.profilePicture?.contentType || "image/jpeg",
+                data: friend.profilePicture?.data?.data || img,
+              })}
               userName={friend.name}
               bg="bg-[#e11d48]"
               show={true}
@@ -72,13 +71,16 @@ const Page = () => {
         return (
           <Chat
             key={friend._id}
-            imgSrc={friend.imgSrc}
+            imgSrc={imagefrombuffer({
+              type: friend.profilePicture?.contentType,
+              data: friend.profilePicture?.data?.data,
+            })}
             userName={friend.name}
             show={true}
           />
         );
       })}
-    </div>
+    </>
   );
 };
 
