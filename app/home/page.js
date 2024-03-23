@@ -6,31 +6,13 @@ import Image from "next/image";
 import { Head } from "next/head";
 import Link from "next/link";
 import "./page.css";
-const friend = {
-  name: "Deepak",
-  email: "john@gmail.com",
-  dp: "/pic2.png",
-};
-
-const friend2 = {
-  name: "Harshit",
-  email: "jane@gmail.com",
-  dp: "/pic.jpg",
-};
 
 const page = () => {
   return (
     <>
       <Header />
       <div className="mt-1">
-        <Chat imgSrc={friend.dp} userName={friend.name} />
-        <Chat imgSrc={friend2.dp} userName={friend2.name} />
-        <Chat imgSrc={friend.dp} userName={friend.name} />
-        <Chat imgSrc={friend2.dp} userName={friend2.name} />
-        <Chat imgSrc={friend.dp} userName={friend.name} />
-        <Chat imgSrc={friend2.dp} userName={friend2.name} />
-        <Chat imgSrc={friend.dp} userName={friend.name} />
-        <Chat imgSrc={friend2.dp} userName={friend2.name} />
+       
       </div>
       <div className="sticky bottom-0 bg-[#1E1E1E] w-auto h-16 flex justify-center items-center">
         <Link href="/search">

@@ -5,6 +5,7 @@ import Chat from "./../components/Chat";
 import Header from "./../components/Header";
 import img from "../../public/pic.jpg";
 import { imagefrombuffer } from "imagefrombuffer";
+import { Link } from "next/link";
 
 const Page = () => {
   const [name, setName] = useState("");
@@ -40,7 +41,7 @@ const Page = () => {
   };
 
   return (
-    <div>
+    <>
       <Header />
       <form onSubmit={handleSearch} className="mt-1">
         <input
@@ -79,7 +80,7 @@ const Page = () => {
           />
         );
       })}
-    </div>
+    </>
   );
 };
 
