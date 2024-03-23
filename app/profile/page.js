@@ -38,7 +38,7 @@ const Page = () => {
       formData.append("profilePicture", e.target[0].files[0]);
 
       const response = await fetch(
-        `http://localhost:3000/user/${userData.user._id}`,
+        `https://server-hush.vercel.app/user/${userData.user._id}`,
         {
           method: "PUT",
           body: formData,

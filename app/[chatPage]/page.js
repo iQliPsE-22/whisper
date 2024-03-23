@@ -21,7 +21,7 @@ const Page = ({ params }) => {
     if (e.target[0].value === "") return;
     console.log(e.target[0].value, params.chatPage);
     try {
-      const response = await fetch("http://localhost:3000/chat", {
+      const response = await fetch("https://server-hush.vercel.app/chat", {
         method: "POST",
         body: JSON.stringify({
           message: e.target[0].value,
@@ -62,7 +62,9 @@ const Page = ({ params }) => {
       if (response.ok) {
         const data = await response.json();
         const filteredData = data.filter(
-          (message) => (message.recipient === partner && message.sender === user) || (message.recipient === user && message.sender === partner)
+          (message) =>
+            (message.recipient === partner && message.sender === user) ||
+            (message.recipient === user && message.sender === partner)
         );
         setMessages(filteredData.map((message) => message.message));
       } else {
