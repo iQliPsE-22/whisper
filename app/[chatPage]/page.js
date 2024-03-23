@@ -62,7 +62,9 @@ const Page = ({ params }) => {
       if (response.ok) {
         const data = await response.json();
         const filteredData = data.filter(
-          (message) => (message.recipient === partner && message.sender === user) || (message.recipient === user && message.sender === partner)
+          (message) =>
+            (message.recipient === partner && message.sender === user) ||
+            (message.recipient === user && message.sender === partner)
         );
         setMessages(filteredData.map((message) => message.message));
       } else {
