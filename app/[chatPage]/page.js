@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import Button from "./../components/Button";
 import { imagefrombuffer } from "imagefrombuffer";
 import img from "../../public/pic.jpg";
+import io from "socket.io-client";
 
 const Page = ({ params }) => {
   const router = useRouter();
@@ -15,70 +16,95 @@ const Page = ({ params }) => {
   const user = userData.user?.name || "";
   const partner = params.chatPage;
   const [messages, setMessages] = useState([]);
+  const [socket, setSocket] = useState(null);
 
-  const handleMessages = async (e) => {
+  useEffect(() => {
+    var socket = io("http://localhost:3000", {
+      transports: ["websocket", "polling", "flashsocket"],
+    });
+    setSocket(socket);
+    console.log(socket);
+    socket.on("connect", () => {
+      console.log("Connected to the server!");
+    });
+
+    socket.on("disconnect", () => {
+      console.log("Disconnected from the server!");
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+  const handleMessages = (e) => {
     e.preventDefault();
-    if (e.target[0].value === "") return;
-    console.log(e.target[0].value, params.chatPage);
+    const message = e.target[0].value.trim();
+    if (!message || !socket) return; // Add null check for socket
     try {
-      const response = await fetch("https://server-hush.vercel.app/chat", {
-        method: "POST",
-        body: JSON.stringify({
-          message: e.target[0].value,
-          sender: user,
-          recipient: params.chatPage,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data); // Log specific data from the response if needed
-        setMessages([...messages, e.target[0].value]);
-        e.target[0].value = "";
-      } else {
-        console.error("Failed to send message");
+      if (socket) {
+        socket.emit("chat message", {
+          message,
+          user,
+          partner,
+        });
+        setMessages([...messages, { message, sender: user }]);
       }
+      e.target[0].value = "";
+      console.log("Message sent", message, partner, user);
     } catch (error) {
       console.error("Failed to send message", error);
     }
   };
 
+  useEffect(() => {
+    if (!socket) return;
+    console.log(socket);
+    socket.on("chat message", (msg) => {
+      console.log("Message received from server:", msg);
+      setMessages([...messages, msg]);
+    });
+
+    return () => {
+      socket.off("connect");
+      socket.off("disconnect");
+      socket.off("chat message");
+    };
+  }, [socket]);
+
+  const fetchMessages = () => {
+    if (!socket) return;
+    socket.emit("fetch messages", { user, partner });
+  };
+
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on("messages fetched", (messages) => {
+      setMessages(messages);
+    });
+    fetchMessages(); 
+    return () => {
+      // Clean up event listener
+      socket.off("messages fetched");
+    };
+  }, [socket]);
+
   const fetchUser = async () => {
     try {
       const response = await fetch("http://localhost:3000/search");
       const data = await response.json();
-      const foundFriend = data.filter((friend) => friend.name === partner);
-      setFriend(foundFriend[0]);
-      console.log(data);
+      const foundFriend = data.find((friend) => friend.name === partner);
+      setFriend(foundFriend);
     } catch (error) {
-      console.error("Error fetching list data:", error);
+      console.error("Error fetching friend data:", error);
     }
   };
-  const fetchMessages = async () => {
-    try {
-      const response = await fetch("http://localhost:3000/chat");
-      if (response.ok) {
-        const data = await response.json();
-        const filteredData = data.filter(
-          (message) =>
-            (message.recipient === partner && message.sender === user) ||
-            (message.recipient === user && message.sender === partner)
-        );
-        setMessages(filteredData.map((message) => message.message));
-      } else {
-        console.error("Failed to fetch messages");
-      }
-    } catch (error) {
-      console.error("Error fetching messages:", error);
-    }
-  };
-
   useEffect(() => {
-    fetchMessages();
     fetchUser();
+    fetchMessages();
   }, []);
+
   return (
     <>
       <div>
@@ -92,17 +118,17 @@ const Page = ({ params }) => {
         />
       </div>
       <div className="text-white max-w-screen h-screen m-4">
-        {messages.map((message, index) => (
+        {messages.map((msg, index) => (
           <div
             key={index}
             className=" bg-[#1A1A1A]  m-2 border-2 border-rose-500 rounded-e-2xl rounded-l rounded-bl-3xl min-w-14"
             style={{
               minWidth: "fit-content",
-              width: `${message.length * 10}px`,
+              width: `${msg.message.length * 10}px`,
               maxWidth: "50%",
             }}
           >
-            <h1 className="m-8 text-center">{message}</h1>
+            <h1 className="m-8 text-center">{msg.message}</h1>
           </div>
         ))}
       </div>
