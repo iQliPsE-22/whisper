@@ -26,7 +26,8 @@
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^8.0.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "socket.io-client": "^4.7.5"
   },
   "devDependencies": {
     "@types/next": "^9.0.0",
