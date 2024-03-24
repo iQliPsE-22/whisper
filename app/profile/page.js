@@ -56,7 +56,7 @@ const Page = () => {
   const handleDeleteAccount = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/user/${userData.user._id}`,
+        `https://server-hush.vercel.app/user/${userData.user._id}`,
         {
           method: "DELETE",
         }

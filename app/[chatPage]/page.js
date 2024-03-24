@@ -19,7 +19,7 @@ const Page = ({ params }) => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    var socket = io("http://localhost:3000", {
+    var socket = io("https://server-hush.vercel.app", {
       transports: ["websocket", "polling", "flashsocket"],
     });
     setSocket(socket);
@@ -92,7 +92,7 @@ const Page = ({ params }) => {
 
   const fetchUser = async () => {
     try {
-      const response = await fetch("http://localhost:3000/search");
+      const response = await fetch("https://server-hush.vercel.app/search");
       const data = await response.json();
       const foundFriend = data.find((friend) => friend.name === partner);
       setFriend(foundFriend);
