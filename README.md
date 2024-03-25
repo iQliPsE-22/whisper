@@ -5,6 +5,11 @@
 
 ![image](https://github.com/iQliPsE-22/whisper/assets/91374730/10db6ccc-fb8b-4891-bad7-f9539f6fc272)
 
+
+![image](https://github.com/iQliPsE-22/whisper/assets/91374730/645ec1ef-e682-4b02-9f8f-c7884dfc1345)
+
+![image](https://github.com/iQliPsE-22/whisper/assets/91374730/8b83fac4-a207-4c33-aa78-236194073b3e)
+
 <h1>Get Started With This</h1>
 
 First, run the development server:
