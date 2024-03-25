@@ -1,11 +1,12 @@
 "use client";
 import Link from "next/link";
-import Chat from "./../components/Chat";
 import React, { useState, useEffect } from "react";
-import { useUser } from "../UserContext";
 import { useRouter } from "next/navigation";
-import Button from "./../components/Button";
 import { imagefrombuffer } from "imagefrombuffer";
+
+import Chat from "./../components/Chat";
+import { useUser } from "../UserContext";
+import Button from "./../components/Button";
 import img from "../../public/pic.jpg";
 import io from "socket.io-client";
 import { Head } from "next/head";

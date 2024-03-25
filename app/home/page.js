@@ -7,23 +7,31 @@ import { Head } from "next/head";
 import Link from "next/link";
 import "./page.css";
 import { useUser } from "../UserContext";
+import { imagefrombuffer } from "imagefrombuffer";
+import img from "../../public/pic.jpg";
+
 const Page = () => {
   const [contacts, setContacts] = useState([]);
   const { userData, setUserData } = useUser();
-  const [info, setInfo] = useState([]);
   const [user, setUser] = useState({
     name: userData.user?.name || "",
   });
+  const [info, setInfo] = useState([]);
 
   const fetchContacts = async () => {
     try {
-      const response = await fetch("http://localhost:3000/chat");
+      const response = await fetch("http://localhost:3000/chats");
       const data = await response.json();
       const filteredContacts = data.filter(
-        (contact) => contact.sender === user.name
+        (contact) =>
+          contact.sender === user.name || contact.recipient === user.name
       );
       const uniqueContacts = [
-        ...new Set(filteredContacts.map((contact) => contact.recipient)),
+        ...new Set(
+          filteredContacts.map((contact) =>
+            contact.sender === user.name ? contact.recipient : contact.sender
+          )
+        ),
       ];
       console.log("uniqueContacts", uniqueContacts);
       setContacts(uniqueContacts);
@@ -31,34 +39,45 @@ const Page = () => {
       console.log("Error fetching list data:", error);
     }
   };
-
   const fetchContactInfo = async (contact) => {
     try {
       const response = await fetch(`http://localhost:3000/user/${contact}`);
       const data = await response.json();
       console.log("data", data);
+      if (!info.some((item) => item.name === contact)) {
+        setInfo((prevInfo) => [...prevInfo, data]);
+      }
     } catch (error) {
-      console.log("Error fetching contact info:", error);
+      console.log("Error fetching list data:", error);
     }
   };
+
   useEffect(() => {
-    fetchContacts();
     contacts.forEach((contact) => {
       fetchContactInfo(contact);
     });
-  }, []);
+  }, [contacts.length]);
 
+  useEffect(() => {
+    fetchContacts();
+  }, []);
+  // console.log("info", info);
   return (
     <>
       <Header />
       <div className="mt-1">
-        {contacts.map((contact) => (
-          <Link key={contact.recipient} href={`/chat/${contact}`}>
-            <Chat userName={contact} />
-          </Link>
+        {info.map((contact) => (
+          <Chat
+            key={contact._id}
+            userName={contact.name}
+            imgSrc={imagefrombuffer({
+              type: contact.profilePicture?.contentType || "image/jpeg",
+              data: contact.profilePicture?.data?.data || img,
+            })}
+          />
         ))}
       </div>
-      <div className="sticky bottom-0 bg-[#1E1E1E] w-auto h-16 flex justify-center items-center">
+      <div className="fixed bottom-0 bg-[#1E1E1E] w-screen h-16 flex justify-center items-center">
         <Link href="/search">
           <button id="add-btn">Start Whispering</button>
         </Link>
@@ -66,5 +85,4 @@ const Page = () => {
     </>
   );
 };
-
 export default Page;
