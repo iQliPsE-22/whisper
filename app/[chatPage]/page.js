@@ -21,7 +21,7 @@ const Page = ({ params }) => {
   const [socket, setSocket] = useState(null);
   const [isUser, setIsUser] = useState(false);
   useEffect(() => {
-    var socket = io("https://server-hush.vercel.app/", {
+    var socket = io("http://localhost:3000", {
       transports: ["websocket", "polling", "flashsocket"],
     });
     setSocket(socket);
