@@ -86,7 +86,6 @@ const Page = ({ params }) => {
 
   const fetchMessages = () => {
     if (!socket) return;
-    socket.emit("fetch messages", { user, partner });
     socket.emit("fetch messages", { sender: sender, recipient: recipient });
   };
 
@@ -110,25 +109,7 @@ const Page = ({ params }) => {
       const foundFriend = data.find((friend) => friend.name === recipient);
       setFriend(foundFriend);
     } catch (error) {
-      console.error("Error fetching list data:", error);
-    }
-  };
-  const fetchMessages = async () => {
-    try {
-      const response = await fetch("http://localhost:3000/chat");
-      if (response.ok) {
-        const data = await response.json();
-        const filteredData = data.filter(
-          (message) =>
-            (message.recipient === partner && message.sender === user) ||
-            (message.recipient === user && message.sender === partner)
-        );
-        setMessages(filteredData.map((message) => message.message));
-      } else {
-        console.error("Failed to fetch messages");
-      }
-    } catch (error) {
-      console.error("Error fetching messages:", error);
+      console.error("Error fetching friend data:", error);
     }
   };
   useEffect(() => {
@@ -152,7 +133,7 @@ const Page = ({ params }) => {
       </div>
 
       <div
-        className={`text-white max-w-screen h-screen m-4 mb-16 flex flex-col h-4/5 mb-32 ${
+        className={`text-white max-w-screen h-4/5 m-4 mb-16 flex flex-col h-4/5 mb-32 ${
           isUser ? "items-end" : "items-start"
         }`}
       >
