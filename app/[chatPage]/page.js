@@ -21,7 +21,7 @@ const Page = ({ params }) => {
   const [socket, setSocket] = useState(null);
   const [isUser, setIsUser] = useState(false);
   useEffect(() => {
-    var socket = io("http://localhost:3000", {
+    var socket = io("https://server-hush.vercel.app/", {
       transports: ["websocket", "polling", "flashsocket"],
     });
     setSocket(socket);
@@ -133,7 +133,7 @@ const Page = ({ params }) => {
       </div>
 
       <div
-        className={`text-white max-w-screen h-screen m-4 mb-16 flex flex-col ${
+        className={`text-white max-w-screen h-screen m-4 mb-16 flex flex-col h-4/5 mb-32 ${
           isUser ? "items-end" : "items-start"
         }`}
       >
@@ -167,13 +167,15 @@ const Page = ({ params }) => {
             type="text"
             className="w-screen h-12 p-2 text-black border-2 border-rose-500 outline-none rounded"
           />
-          <Button
-            name="Send"
-            color="white"
-            type="submit"
-            bg="black"
-            onClick={scrollToBottom}
-          />
+          <div className="bg-black w-screen">
+            <Button
+              name="Send"
+              color="white"
+              type="submit"
+              bg="black"
+              onClick={scrollToBottom}
+            />
+          </div>
         </form>
       </div>
     </>
