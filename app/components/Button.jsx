@@ -1,9 +1,9 @@
 const Button = (props) => {
   return (
-    <div className="flex justify-center w-full bgColor-red">
+    <div className="flex justify-center w-full bgColor-red z-1">
       <button
         type={props.type}
-        className={`w-dvw md:w-3/12 p-2 mb-1 text-black rounded-lg flex justify-center items-center cursor-pointer`}
+        className={`w-dvw md:w-3/12 p-4 text-black rounded-lg flex justify-center items-center cursor-pointer`}
         style={{ backgroundColor: props.bg, color: props.color }}
         onClick={props.onClick}
       >
