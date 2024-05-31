@@ -104,7 +104,7 @@ const Page = ({ params }) => {
 
   const fetchUser = async () => {
     try {
-      const response = await fetch("http://localhost:3000/search");
+      const response = await fetch("https://server-hush.vercel.app/search");
       const data = await response.json();
       const foundFriend = data.find((friend) => friend.name === recipient);
       setFriend(foundFriend);

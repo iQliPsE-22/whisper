@@ -20,7 +20,7 @@ const Page = () => {
 
   const fetchContacts = async () => {
     try {
-      const response = await fetch("http://localhost:3000/chats");
+      const response = await fetch("https://server-hush.vercel.app/chats");
       const data = await response.json();
       const filteredContacts = data.filter(
         (contact) =>
