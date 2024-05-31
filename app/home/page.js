@@ -41,7 +41,7 @@ const Page = () => {
   };
   const fetchContactInfo = async (contact) => {
     try {
-      const response = await fetch(`http://localhost:3000/user/${contact}`);
+      const response = await fetch(`https://server-hush.vercel.app/user/${contact}`);
       const data = await response.json();
       console.log("data", data);
       if (!info.some((item) => item.name === contact)) {
