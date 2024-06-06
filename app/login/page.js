@@ -11,6 +11,7 @@ const Button = dynamic(() => import("../components/Button"), { ssr: false });
 
 const Page = () => {
   const router = useRouter();
+
   const [user, setUser] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
 
@@ -26,7 +27,7 @@ const Page = () => {
         },
         body: JSON.stringify(user),
       });
-      console.log("Login Successful", response);
+      console.log(response);
       if (response.ok) {
         const data = await response.json();
         console.log("Login Successful");
