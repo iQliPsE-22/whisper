@@ -20,14 +20,13 @@ const Page = () => {
     e.preventDefault();
     try {
       console.log("Login Attempted");
-      const response = await fetch("https://hush-server.onrender.com/login", {
+      const response = await fetch("http://localhost:3000/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(user),
       });
-      console.log(response);
       if (response.ok) {
         const data = await response.json();
         console.log("Login Successful");
@@ -35,7 +34,9 @@ const Page = () => {
         console.log("userData", userData);
         router.push("/home");
       } else {
-        console.error("Login Failed");
+        const data = await response.json();
+        setError(data.message);
+        console.log("Login Failed:", data.message);
       }
     } catch (err) {
       console.error("Login Failed:", err);
