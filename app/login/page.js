@@ -11,11 +11,14 @@ const Button = dynamic(() => import("../components/Button"), { ssr: false });
 
 const Page = () => {
   const router = useRouter();
-
+  
   const [user, setUser] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
 
   const { userData, setUserData } = useUser();
+  useEffect(() => {
+    setUser(null);
+  }, []);
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {

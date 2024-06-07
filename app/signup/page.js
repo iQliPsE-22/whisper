@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../login/login.css";
 import Link from "next/link";
 import dynamic from "next/dynamic";
@@ -13,10 +13,6 @@ const Page = () => {
     email: "",
     password: "",
   });
-  useEffect(() => {
-    setUser(null);
-  }, []);
-
   const [previewImage, setPreviewImage] = useState(null);
   const [userExists, setUserExists] = useState(false); // Add userExists state
   const [userNameExists, setUserNameExists] = useState(false); // Add userExists state
