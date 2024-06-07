@@ -10,7 +10,7 @@ const Page = () => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       router.push("/login");
-    }, 2500);
+    }, 2000);
     return () => clearTimeout(timeout);
   }, [router]);
   return (
