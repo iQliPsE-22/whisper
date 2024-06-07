@@ -20,7 +20,7 @@ const Page = () => {
     e.preventDefault();
     try {
       console.log("Login Attempted");
-      const response = await fetch("http://localhost:3000/login", {
+      const response = await fetch("https://hush-server.onrender.com/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
