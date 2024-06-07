@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 const Button = dynamic(() => import("../components/Button"), { ssr: false });
 import profile from "/public/profile.jpg";
+import { useRouter } from "next/navigation";
 const Page = () => {
   const [user, setUser] = useState({
     profilePicture: null,
@@ -13,9 +14,9 @@ const Page = () => {
     email: "",
     password: "",
   });
+  const router = useRouter();
   const [previewImage, setPreviewImage] = useState(null);
-  const [userExists, setUserExists] = useState(false); // Add userExists state
-  const [userNameExists, setUserNameExists] = useState(false); // Add userExists state
+  const [message, setMessage] = useState("");
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -32,17 +33,18 @@ const Page = () => {
       });
       const data = await response.json();
       console.log(data);
-
+      if (response.ok) {
+        router.push("/login");
+      }
       setUser({ profilePicture: null, name: "", email: "", password: "" });
       if (data.message === "User already exists") {
         console.log("User exists");
-        setUserExists(true);
+        setMessage("User already exists");
       } else if (data.message === "UserName already exists") {
         console.log("UserName exists");
-        setUserNameExists(true);
+        setMessage("UserName already exists");
       } else {
-        setUserExists(false);
-        setUserNameExists(false);
+        setMessage(data.message);
       }
     } catch (err) {
       console.log(err);
@@ -94,6 +96,7 @@ const Page = () => {
               accept="image/*"
               className="text-center"
               onChange={handleProfilePictureChange}
+              required
             />
             <br />
             <input
@@ -102,6 +105,7 @@ const Page = () => {
               value={user.name}
               onChange={(e) => setUser({ ...user, name: e.target.value })}
               placeholder="Name"
+              required
             />
             <br />
             <input
@@ -111,6 +115,7 @@ const Page = () => {
               value={user.email}
               onChange={(e) => setUser({ ...user, email: e.target.value })}
               placeholder="Email"
+              required
             />
             <br />
             <input
@@ -120,11 +125,9 @@ const Page = () => {
               value={user.password}
               onChange={(e) => setUser({ ...user, password: e.target.value })}
               placeholder="Password"
+              required
             />
-            {userExists && <p className="text-red-500">Email already exists</p>}
-            {userNameExists && (
-              <p className="text-red-500">UserName already exists</p>
-            )}
+            {message && <p className="text-red-500 mt-2">{message}</p>}
             <div className="mt-28 btn">
               <Button
                 name="Sign Up"
