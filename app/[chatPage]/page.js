@@ -104,21 +104,24 @@ const Page = ({ params }) => {
 
   const fetchUser = async () => {
     try {
-      const response = await fetch("https://hush-server.onrender.com");
+      const response = await fetch("https://hush-server.onrender.com/search");
       const data = await response.json();
       const foundFriend = data.find((friend) => friend.name === recipient);
       setFriend(foundFriend);
+      console.log("Friend data:", foundFriend);
     } catch (error) {
       console.error("Error fetching friend data:", error);
     }
   };
   useEffect(() => {
     fetchUser();
-  }, []);
+    scrollToBottom();
+  }, [messages.length]);
   console.log(messages);
   const scrollToBottom = () => {
     window.scrollTo(0, document.body.scrollHeight);
   };
+
   return (
     <>
       <div>

@@ -59,11 +59,9 @@ const Page = () => {
       fetchContactInfo(contact);
     });
   }, [contacts.length]);
-
   useEffect(() => {
     fetchContacts();
   }, []);
-  // console.log("info", info);
   return (
     <>
       <Header />
@@ -76,9 +74,7 @@ const Page = () => {
                 userName={contact.name}
                 imgSrc={imagefrombuffer({
                   type: contact.profilePicture?.contentType || "image/jpeg",
-                  data: contact.profilePicture
-                    ? contact.profilePicture.data
-                    : img,
+                  data: contact.profilePicture?.data?.data || img,
                 })}
               />
             )
