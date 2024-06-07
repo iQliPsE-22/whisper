@@ -10,16 +10,20 @@ import Button from "./../components/Button";
 import img from "../../public/pic.jpg";
 import io from "socket.io-client";
 import { Head } from "next/head";
+import ChatBox from "./../components/ChatBox";
 
 const Page = ({ params }) => {
   const router = useRouter();
   const { userData, setUserData } = useUser();
   const [friend, setFriend] = useState({});
+
   const sender = userData.user?.name || "";
+
   const recipient = params.chatPage;
   const [messages, setMessages] = useState([]);
   const [socket, setSocket] = useState(null);
   const [isUser, setIsUser] = useState(false);
+
   useEffect(() => {
     var socket = io("https://hush-server.onrender.com", {
       transports: ["websocket", "polling", "flashsocket"],
@@ -113,11 +117,12 @@ const Page = ({ params }) => {
       console.error("Error fetching friend data:", error);
     }
   };
+
   useEffect(() => {
     fetchUser();
     scrollToBottom();
   }, [messages.length]);
-  console.log(messages);
+
   const scrollToBottom = () => {
     window.scrollTo(0, document.body.scrollHeight);
   };
@@ -141,25 +146,8 @@ const Page = ({ params }) => {
         }`}
       >
         {messages.map((msg, index) => (
-          <div
-            key={index}
-            className={`bg-[#1A1A1A] m-2 border-2 rounded-e-2xl rounded-l rounded-bl-3xl p-0 ${
-              msg.sender === sender
-                ? "border-rose-500 self-end"
-                : "border-green-500 self-start"
-            }`}
-            style={{
-              minWidth: "fit-content",
-              minHeight: "fit-content",
-              width: `${msg.message.length * 10}px`,
-              Height: "fit-content",
-              maxWidth: "50%",
-            }}
-          >
-            <h1 className="m-8 text-center font-xl">{msg.message} </h1>
-            <span className="m-8 text-right text-gray-700 font-sm">
-              {msg.time}
-            </span>
+          <div key={index} className = "w-full">
+            <ChatBox key={index} msg={msg} sender={sender} />
           </div>
         ))}
       </div>
