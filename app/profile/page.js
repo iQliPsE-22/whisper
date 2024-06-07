@@ -38,7 +38,7 @@ const Page = () => {
       formData.append("profilePicture", e.target[0].files[0]);
 
       const response = await fetch(
-        `https://server-hush.vercel.app/user/${userData.user._id}`,
+        `https://hush-server.onrender.com/user/${userData.user._id}`,
         {
           method: "PUT",
           body: formData,
@@ -56,7 +56,7 @@ const Page = () => {
   const handleDeleteAccount = async () => {
     try {
       const response = await fetch(
-        `https://server-hush.vercel.app/user/${userData.user._id}`,
+        `https://hush-server.onrender.com/user/${userData.user._id}`,
         {
           method: "DELETE",
         }

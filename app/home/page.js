@@ -20,7 +20,7 @@ const Page = () => {
 
   const fetchContacts = async () => {
     try {
-      const response = await fetch("https://server-hush.vercel.app/chats");
+      const response = await fetch("https://hush-server.onrender.com/chats");
       const data = await response.json();
       const filteredContacts = data.filter(
         (contact) =>
@@ -42,7 +42,7 @@ const Page = () => {
   const fetchContactInfo = async (contact) => {
     try {
       const response = await fetch(
-        `https://server-hush.vercel.app/user/${contact}`
+        `https://hush-server.onrender.com/user/${contact}`
       );
       const data = await response.json();
       console.log("data", data);
