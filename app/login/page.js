@@ -8,19 +8,24 @@ import { useRouter } from "next/navigation";
 import { useUser } from "../UserContext";
 
 const Button = dynamic(() => import("../components/Button"), { ssr: false });
+import Loading from "./../components/Loading";
 
 const Page = () => {
   const router = useRouter();
   const { userData, setUserData } = useUser();
-
+  const [showLoading, setShowLoading] = useState(false);
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
+
   useEffect(() => {
-    setUserData(null);
+    setUserData(null); //setting user data to null
   }, []);
 
   const handleFormSubmit = async (e) => {
+    //function to handle form submission
     e.preventDefault();
+    setShowLoading(true);
+
     try {
       console.log("Login Attempted");
       const response = await fetch("https://hush-server.onrender.com/login", {
@@ -38,8 +43,9 @@ const Page = () => {
         router.push("/home");
       } else {
         const data = await response.json();
-        setError(data.message);
+        setShowLoading(false);
         console.error("Login Failed:", data.message);
+        setError(data.message);
       }
     } catch (err) {
       console.error("Login Failed:", err);
@@ -49,6 +55,7 @@ const Page = () => {
 
   return (
     <>
+      {showLoading && <Loading />}
       <div className="h-screen flex flex-row items-center">
         <div className="h-screen w-screen text-white text-center p-10">
           <h1 className="text-lg p-5" id="title">

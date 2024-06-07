@@ -94,7 +94,12 @@ const Page = () => {
             <input
               type="file"
               accept="image/*"
-              className="text-center"
+              className="text-sm text-slate-500
+              file:mr-4 file:py-2 file:px-4
+              file:rounded-full file:border-0
+              file:text-lg 
+              file:bg-violet-50 file:text-[#01b7fd]
+              hover:file:bg-violet-100"
               onChange={handleProfilePictureChange}
               required
             />

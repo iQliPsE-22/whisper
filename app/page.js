@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import logo from "../public/whisper.svg";
 import Header from "./components/Header";
+import Loading from "./components/Loading";
 const Page = () => {
   const router = useRouter();
   useEffect(() => {
@@ -15,9 +16,7 @@ const Page = () => {
   }, [router]);
   return (
     <div className="h-screen w-screen text-center flex items-center justify-center">
-      <div className="logo">
-        <Image src={logo} alt="logo" height={500} width={500} />
-      </div>
+      <Loading />
     </div>
   );
 };
