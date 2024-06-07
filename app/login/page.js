@@ -11,14 +11,14 @@ const Button = dynamic(() => import("../components/Button"), { ssr: false });
 
 const Page = () => {
   const router = useRouter();
-  
-  const [user, setUser] = useState({ email: "", password: "" });
-  const [error, setError] = useState("");
-
   const { userData, setUserData } = useUser();
+
+  const [credentials, setCredentials] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
   useEffect(() => {
-    setUser(null);
+    setUserData(null);
   }, []);
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -28,7 +28,7 @@ const Page = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(user),
+        body: JSON.stringify(credentials),
       });
       if (response.ok) {
         const data = await response.json();
@@ -39,10 +39,11 @@ const Page = () => {
       } else {
         const data = await response.json();
         setError(data.message);
-        console.log("Login Failed:", data.message);
+        console.error("Login Failed:", data.message);
       }
     } catch (err) {
       console.error("Login Failed:", err);
+      setError("An error occurred while logging in.");
     }
   };
 
@@ -56,11 +57,13 @@ const Page = () => {
           <form className="mt-8" onSubmit={handleFormSubmit}>
             <input
               type="email"
-              name="user"
+              name="email"
               className="text-input"
               placeholder="Email"
-              value={user.email}
-              onChange={(e) => setUser({ ...user, email: e.target.value })}
+              value={credentials.email}
+              onChange={(e) =>
+                setCredentials({ ...credentials, email: e.target.value })
+              }
               required
             />
             <br />
@@ -69,8 +72,10 @@ const Page = () => {
               name="password"
               className="text-input"
               placeholder="Password"
-              value={user.password}
-              onChange={(e) => setUser({ ...user, password: e.target.value })}
+              value={credentials.password}
+              onChange={(e) =>
+                setCredentials({ ...credentials, password: e.target.value })
+              }
               required
             />
             <div className="mt-44">
