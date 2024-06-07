@@ -9,7 +9,7 @@ import { imagefrombuffer } from "imagefrombuffer";
 const Header = () => {
   const { userData } = useUser();
   const user = userData.user;
-  
+
   const [previewImage, setPreviewImage] = useState(
     imagefrombuffer({
       type: user?.profilePicture?.contentType || "image/jpeg",
