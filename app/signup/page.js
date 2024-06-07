@@ -13,6 +13,9 @@ const Page = () => {
     email: "",
     password: "",
   });
+  useEffect(() => {
+    setUser(null);
+  }, []);
 
   const [previewImage, setPreviewImage] = useState(null);
   const [userExists, setUserExists] = useState(false); // Add userExists state
