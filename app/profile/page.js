@@ -98,7 +98,12 @@ const Page = () => {
           <form className="mt-7 text-black" onSubmit={handleFormSubmit}>
             <input
               type="file"
-              className="text-center"
+              className="text-sm text-slate-500
+              file:mr-4 file:py-2 file:px-4
+              file:rounded-full file:border-0
+              file:text-lg
+              file:bg-violet-50 file:text-violet-700
+              hover:file:bg-violet-100"
               onChange={(e) => {
                 const file = e.target.files[0];
                 if (file && file.size > 15000) {

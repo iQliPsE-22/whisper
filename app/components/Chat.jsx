@@ -20,13 +20,13 @@ const Chat = (props) => {
       as={`/${encodeURIComponent(props.userName)}`}
     >
       <div
-        className={`h-20 ${bgColor} flex items-center justify-between mb-1 cursor-pointer`}
+        className={`h-18 lg:h-20 ${bgColor} flex items-center justify-between mb-1 cursor-pointer`}
       >
-        <div className="ml-4 flex items-center">
+        <div className="dp ml-4 flex items-center">
           <Image
             src={props.imgSrc}
             alt="dp"
-            width={isImageClicked ? 200 : 50}
+            width={isImageClicked ? 200 : 48}
             height={isImageClicked ? 200 : 50}
             className="rounded-full"
             quality={100}

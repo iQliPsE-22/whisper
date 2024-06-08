@@ -49,7 +49,7 @@ const Page = () => {
           className="w-dvw h-12 text-black text-center mb-1"
           onChange={(e) => setName(e.target.value)}
         />
-        <Button name="Search" bg="grey" color="black" type="submit" />
+        <Button name="Search" bg="grey" color="white" type="submit" />
       </form>
 
       {found &&
