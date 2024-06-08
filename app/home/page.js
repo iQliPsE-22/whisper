@@ -42,7 +42,7 @@ const Page = () => {
   const fetchContactInfo = async (contact) => {
     try {
       const response = await fetch(
-        `https://hush-server.onrender.com/user/${contact}`
+        `https://server-hush.vercel.app/user/${contact}`
       );
       const data = await response.json();
       console.log("data", data);

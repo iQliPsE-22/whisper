@@ -33,7 +33,7 @@ const Hamburger = ({ isOpen, onClose }) => {
 
   return (
     <div
-      className={`fixed top-0 h-screen bg-black text-white p-4 w-10/12 lg:w-1/3 transition-transform duration-300 transform z-200 ${
+      className={`fixed top-0 h-full bg-black text-white p-4 w-10/12 lg:w-1/3 transition-transform duration-300 transform ${
         isOpen ? "translate-x-0" : "-translate-x-full"
       } hamburger-menu`}
     >
@@ -45,14 +45,14 @@ const Hamburger = ({ isOpen, onClose }) => {
           src={close}
           alt="close"
           onClick={onClose}
-          className="h-8 w-8 cursor-pointer"
+          className="h-8 w-8 cursor-pointer m-2"
         />
       </div>
-      <div className = " h-full flex flex-col justify-between z-1000">
-        <ul className="flex flex-col justify-between flex-grow">
+      <div className=" h-full flex flex-col justify-around">
+        <ul className="h-fit flex flex-col justify-between ">
           <div className="p-4 julius text-center">
             <Link
-              href="/"
+              href="/home"
               className="block m-4 bg-[#404040] p-3 rounded hover:bg-[#303030] cursor-pointer"
             >
               Home
@@ -72,7 +72,7 @@ const Hamburger = ({ isOpen, onClose }) => {
             </Link>
           </div>
         </ul>
-        <div className="julius flex-end">
+        <div className="julius">
           <Link
             href="/profile"
             className="block text-center m-4 bg-[#404040] p-3 rounded hover:bg-[#303030] cursor-pointer"

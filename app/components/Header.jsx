@@ -31,8 +31,8 @@ const Header = () => {
         isOpen={showHamburger}
         onClose={() => setShowHamburger(false)}
       />
-      <div className="mt-2 flex justify-between items-center">
-        <div className="ml-2">
+      <div className="flex justify-between items-center p-2 shadow shadow-white	">
+        <div className="ml-2 h-10 w-10 md:h-16 md:w-16 rounded-full flex items-center justify-center">
           <button onClick={() => setShowHamburger(!showHamburger)}>
             <Image
               src={open}
@@ -41,18 +41,20 @@ const Header = () => {
             />
           </button>
         </div>
-        <header className="flex-grow flex justify-center">
-          <Image
-            src={logo}
-            alt="logo"
-            height={70}
-            width={70}
-            quality={100}
-            style={imageStyle}
-          />
+        <header className="h-10 w-10 md:h-16 md:w-16 rounded-full flex items-center justify-center">
+          <span className = "rounded-full h-fit w-fit">
+            <Image
+              src={logo}
+              alt="logo"
+              height={70}
+              width={70}
+              quality={100}
+              style={imageStyle}
+            />
+          </span>
         </header>
-        <div className="h-16 w-16 bg-rose-900 rounded-full flex items-center justify-center">
-          <Link href="/profile">
+        <div className="h-10 w-10 md:h-16 md:w-16 rounded-full flex items-center justify-center">
+          <Link href="/profile" >
             <Image
               src={previewImage}
               alt="profile"
