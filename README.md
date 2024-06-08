@@ -80,4 +80,5 @@ Check out the [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ---
 
-This README provides a clean, concise overview of your project, with clear instructions on how to get started, learn more, and deploy the application.
+##Author 
+https://www.iqlipse.studio/
