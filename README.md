@@ -80,5 +80,5 @@ Check out the [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ---
 
-##Author 
+## Author 
 https://www.iqlipse.studio/
