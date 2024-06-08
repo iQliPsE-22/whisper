@@ -1,5 +1,3 @@
-Here's a polished and well-formatted README for your project, Whisper:
-
 ---
 
 # Whisper - Chatting Web Application
