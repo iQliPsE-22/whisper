@@ -56,50 +56,52 @@ const Page = () => {
   return (
     <>
       {showLoading && <Loading />}
-      <div className="h-screen flex flex-row items-center">
-        <div className="h-screen w-screen text-white text-center p-10">
-          <h1 className="text-lg p-5" id="title">
-            Login
-          </h1>
-          <form className="mt-8" onSubmit={handleFormSubmit}>
-            <input
-              type="email"
-              name="email"
-              className="text-input"
-              placeholder="Email"
-              value={credentials.email}
-              onChange={(e) =>
-                setCredentials({ ...credentials, email: e.target.value })
-              }
-              required
-            />
-            <br />
-            <input
-              type="password"
-              name="password"
-              className="text-input"
-              placeholder="Password"
-              value={credentials.password}
-              onChange={(e) =>
-                setCredentials({ ...credentials, password: e.target.value })
-              }
-              required
-            />
-            <div className="mt-44">
-              <Button name="Login" bg="white" color="black" type="submit" />
-              <Link href="/signup">
-                <Button name="Sign Up" bg="#1A1A1A" color="#898989" />
-              </Link>
-              <Button
-                name="Forgot Password ?"
-                bg="transparent"
-                color="#898989"
+      {!showLoading && (
+        <div className="h-screen flex flex-row items-center">
+          <div className="h-screen w-screen text-white text-center p-10">
+            <h1 className="text-lg p-5" id="title">
+              Login
+            </h1>
+            <form className="mt-8" onSubmit={handleFormSubmit}>
+              <input
+                type="email"
+                name="email"
+                className="text-input"
+                placeholder="Email"
+                value={credentials.email}
+                onChange={(e) =>
+                  setCredentials({ ...credentials, email: e.target.value })
+                }
+                required
               />
-            </div>
-            {error && <p className="text-red-500 mt-2">{error}</p>}
-          </form>
+              <br />
+              <input
+                type="password"
+                name="password"
+                className="text-input"
+                placeholder="Password"
+                value={credentials.password}
+                onChange={(e) =>
+                  setCredentials({ ...credentials, password: e.target.value })
+                }
+                required
+              />
+              <div className="mt-44">
+                <Button name="Login" bg="white" color="black" type="submit" />
+                <Link href="/signup">
+                  <Button name="Sign Up" bg="#1A1A1A" color="#898989" />
+                </Link>
+                <Button
+                  name="Forgot Password ?"
+                  bg="transparent"
+                  color="#898989"
+                />
+              </div>
+              {error && <p className="text-red-500 mt-2">{error}</p>}
+            </form>
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 };
