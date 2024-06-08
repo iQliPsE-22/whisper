@@ -28,7 +28,7 @@ const Page = () => {
 
     try {
       console.log("Login Attempted");
-      const response = await fetch("https://hush-server.onrender.com/login", {
+      const response = await fetch("https://server-hush.vercel.app/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

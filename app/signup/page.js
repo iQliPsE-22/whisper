@@ -27,7 +27,7 @@ const Page = () => {
       formData.append("name", user.name);
       formData.append("email", user.email);
       formData.append("password", user.password);
-      const response = await fetch("https://hush-server.onrender.com/user", {
+      const response = await fetch("https://server-hush.vercel.app/user", {
         method: "POST",
         body: formData,
       });

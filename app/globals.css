@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Itim&family=Julius+Sans+One&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -36,6 +38,9 @@ body {
 }
 button {
   cursor: pointer;
+}
+.julius {
+  font-family: "Julius Sans One", sans-serif;
 }
 .logo {
   animation: flash 3s infinite;

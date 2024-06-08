@@ -19,7 +19,7 @@ const Page = () => {
 
   const fetchUser = async () => {
     try {
-      const response = await fetch("https://hush-server.onrender.com/search");
+      const response = await fetch("https://server-hush.vercel.app/search");
       const data = await response.json();
       setFriend(data);
       console.log(data);
