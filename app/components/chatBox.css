@@ -1,0 +1,9 @@
+.text-box {
+  max-width: 50%;
+  word-wrap: "break-word";
+}
+@media screen and (max-width: 768px) {
+  .text-box {
+    max-width: 85%;
+  }
+}
