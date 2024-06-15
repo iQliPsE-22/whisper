@@ -5,7 +5,6 @@ import Chat from "./../components/Chat";
 import Image from "next/image";
 import { Head } from "next/head";
 import Link from "next/link";
-import "./page.css";
 import { useUser } from "../UserContext";
 import { imagefrombuffer } from "imagefrombuffer";
 import img from "../../public/pic.jpg";
@@ -83,7 +82,9 @@ const Page = () => {
 
       <div className="fixed bottom-0 bg-[#1E1E1E] w-screen h-16 flex justify-center items-center">
         <Link href="/search">
-          <button id="add-btn">Start Whispering</button>
+          <button id="add-btn" className="julius  ">
+            Start Whispering
+          </button>
         </Link>
       </div>
     </>

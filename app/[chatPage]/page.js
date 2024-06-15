@@ -163,7 +163,7 @@ const Page = ({ params }) => {
               name="Send"
               color="white"
               type="submit"
-              bg="black"
+              bg="#282828"
               onClick={scrollToBottom}
             />
           </div>
