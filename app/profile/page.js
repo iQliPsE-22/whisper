@@ -6,6 +6,7 @@ import "../login/login.css";
 import Button from "../components/Button";
 import { useUser } from "../UserContext";
 import { imagefrombuffer } from "imagefrombuffer";
+import Header from './../components/Header';
 
 const imageStyle = {
   borderRadius: "50%",
@@ -73,6 +74,8 @@ const Page = () => {
 
   return (
     <>
+      <Header/>
+
       <div
         className=" flex flex-row items-center flex-col"
         style={{ overflowX: "hidden" }}
