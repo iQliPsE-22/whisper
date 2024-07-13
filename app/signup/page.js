@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "../login/login.css";
 import Link from "next/link";
 import dynamic from "next/dynamic";
@@ -7,6 +7,8 @@ import Image from "next/image";
 const Button = dynamic(() => import("../components/Button"), { ssr: false });
 import profile from "/public/profile.jpg";
 import { useRouter } from "next/navigation";
+import imageCompression from "browser-image-compression";
+
 const Page = () => {
   const [user, setUser] = useState({
     profilePicture: null,
@@ -50,17 +52,32 @@ const Page = () => {
       console.log(err);
     }
   };
+
   const imageStyle = {
     borderRadius: "50%",
     border: "2px solid white",
   };
-  const handleProfilePictureChange = (e) => {
+
+  const handleProfilePictureChange = async (e) => {
     const file = e.target.files[0];
-    setPreviewImage(file); // Set the previewImage with the object URL
-    setUser((prevUser) => ({
-      ...prevUser,
-      profilePicture: file,
-    }));
+    if (file) {
+      const options = {
+        maxSizeMB: 0.05,
+        maxWidthOrHeight: 800,
+        useWebWorker: true,
+      };
+
+      try {
+        const compressedFile = await imageCompression(file, options);
+        setPreviewImage(compressedFile); // Set the previewImage with the compressed file
+        setUser((prevUser) => ({
+          ...prevUser,
+          profilePicture: compressedFile,
+        }));
+      } catch (error) {
+        console.error("Error compressing the image:", error);
+      }
+    }
   };
 
   return (
