@@ -66,10 +66,9 @@ const Page = () => {
         maxWidthOrHeight: 800,
         useWebWorker: true,
       };
-
       try {
         const compressedFile = await imageCompression(file, options);
-        setPreviewImage(compressedFile); // Set the previewImage with the compressed file
+        setPreviewImage(compressedFile);
         setUser((prevUser) => ({
           ...prevUser,
           profilePicture: compressedFile,

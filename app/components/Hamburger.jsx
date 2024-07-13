@@ -37,16 +37,18 @@ const Hamburger = ({ isOpen, onClose }) => {
         isOpen ? "translate-x-0" : "-translate-x-full"
       } hamburger-menu`}
     >
-      <h1 className="julius text-2xl text-center p-4 underline">
-        LOST YOUR WAY?
-      </h1>
-      <div className="absolute top-4 right-4">
-        <Image
-          src={close}
-          alt="close"
-          onClick={onClose}
-          className="h-8 w-8 cursor-pointer m-2"
-        />
+      <div className = "w-full flex justify-between">
+        <h1 className="julius w-full text-xl text-center p-4 underline md:text-2xl">
+          LOST YOUR WAY?
+        </h1>
+        <div className="flex-end ">
+          <Image
+            src={close}
+            alt="close"
+            onClick={onClose}
+            className="h-8 w-8 cursor-pointer m-2"
+          />
+        </div>
       </div>
       <div className=" h-full flex flex-col justify-around">
         <ul className="h-fit flex flex-col justify-between ">
