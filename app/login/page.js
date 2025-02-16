@@ -6,10 +6,10 @@ import Link from "next/link";
 import "./login.css";
 import { useRouter } from "next/navigation";
 import { useUser } from "../UserContext";
+import Loading from "./../components/Loading";
+import { jwtDecode } from "jwt-decode";
 
 const Button = dynamic(() => import("../components/Button"), { ssr: false });
-import Loading from "./../components/Loading";
-
 const Page = () => {
   const router = useRouter();
   const { userData, setUserData } = useUser();
@@ -38,8 +38,9 @@ const Page = () => {
       if (response.ok) {
         const data = await response.json();
         console.log("Login Successful");
-        setUserData(data);
-        console.log("userData", userData);
+        const decodedToken = jwtDecode(data.token);
+        console.log("User Data from Token:", decodedToken);
+        setUserData(decodedToken);
         router.push("/home");
       } else {
         const data = await response.json();

@@ -3,15 +3,13 @@ import React, { useState, useEffect } from "react";
 import Button from "./../components/Button";
 import Chat from "./../components/Chat";
 import Header from "./../components/Header";
-import img from "../../public/pic.jpg";
-import { imagefrombuffer } from "imagefrombuffer";
 import { Link } from "next/link";
 
 const Page = () => {
   const [name, setName] = useState("");
-  const [friends, setFriend] = useState({});
+  const [friends, setFriends] = useState([]);
   const [found, setFound] = useState(false);
-  const [foundFriend, setFoundFriend] = useState({});
+  const [foundFriends, setFoundFriends] = useState([]);
 
   useEffect(() => {
     fetchUser();
@@ -21,7 +19,17 @@ const Page = () => {
     try {
       const response = await fetch("https://server-hush.vercel.app/search");
       const data = await response.json();
-      setFriend(data);
+      const updatedFriends = data.map((friend) => {
+        if (friend.profilePicture) {
+          const blob = new Blob(
+            [new Uint8Array(friend.profilePicture.data.data)],
+            { type: friend.profilePicture.contentType }
+          );
+          friend.profilePicture = URL.createObjectURL(blob);
+        }
+        return friend;
+      });
+      setFriends(updatedFriends);
       console.log(data);
     } catch (error) {
       console.error("Error fetching list data:", error);
@@ -34,7 +42,7 @@ const Page = () => {
     if (foundFriends.length > 0) {
       console.log("Friends found:", foundFriends);
       setFound(true);
-      setFoundFriend(foundFriends);
+      setFoundFriends(foundFriends);
     } else {
       console.log("Friends not found");
     }
@@ -53,13 +61,10 @@ const Page = () => {
       </form>
 
       {found &&
-        foundFriend.map((friend) => (
+        foundFriends.map((friend) => (
           <div key={friend._id}>
             <Chat
-              imgSrc={imagefrombuffer({
-                type: friend.profilePicture?.contentType || "image/jpeg",
-                data: friend.profilePicture?.data?.data || img,
-              })}
+              imgSrc={friend.profilePicture}
               userName={friend.name}
               bg="bg-[#e11d48]"
               show={true}
@@ -67,19 +72,14 @@ const Page = () => {
           </div>
         ))}
 
-      {Object.values(friends).map((friend) => {
-        return (
-          <Chat
-            key={friend._id}
-            imgSrc={imagefrombuffer({
-              type: friend.profilePicture?.contentType,
-              data: friend.profilePicture?.data?.data,
-            })}
-            userName={friend.name}
-            show={true}
-          />
-        );
-      })}
+      {friends.map((friend) => (
+        <Chat
+          key={friend._id}
+          imgSrc={friend.profilePicture}
+          userName={friend.name}
+          show={true}
+        />
+      ))}
     </>
   );
 };

@@ -1,15 +1,12 @@
 "use client";
 import Link from "next/link";
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { imagefrombuffer } from "imagefrombuffer";
-
 import Chat from "./../components/Chat";
 import { useUser } from "../UserContext";
 import Button from "./../components/Button";
 import img from "../../public/pic.jpg";
 import io from "socket.io-client";
-import { Head } from "next/head";
 import ChatBox from "./../components/ChatBox";
 
 const Page = ({ params }) => {
@@ -17,7 +14,7 @@ const Page = ({ params }) => {
   const { userData, setUserData } = useUser();
   const [friend, setFriend] = useState({});
 
-  const sender = userData.user?.name || "";
+  const sender = userData.name || "";
 
   const recipient = params.chatPage;
   const [messages, setMessages] = useState([]);
@@ -111,6 +108,13 @@ const Page = ({ params }) => {
       const response = await fetch("https://hush-server.onrender.com/search");
       const data = await response.json();
       const foundFriend = data.find((friend) => friend.name === recipient);
+      if (foundFriend && foundFriend.profilePicture) {
+        const blob = new Blob(
+          [new Uint8Array(foundFriend.profilePicture.data.data)],
+          { type: foundFriend.profilePicture.contentType }
+        );
+        foundFriend.profilePicture = URL.createObjectURL(blob);
+      }
       setFriend(foundFriend);
       console.log("Friend data:", foundFriend);
     } catch (error) {
@@ -131,10 +135,7 @@ const Page = ({ params }) => {
     <>
       <div>
         <Chat
-          imgSrc={imagefrombuffer({
-            type: friend?.profilePicture?.contentType || "image/jpeg",
-            data: friend?.profilePicture?.data?.data || img,
-          })}
+          imgSrc={friend?.profilePicture}
           userName={friend?.name}
           bg="bg-[#e11d48]"
         />
@@ -146,7 +147,7 @@ const Page = ({ params }) => {
         }`}
       >
         {messages.map((msg, index) => (
-          <div key={index} className = "w-full">
+          <div key={index} className="w-full">
             <ChatBox key={index} msg={msg} sender={sender} />
           </div>
         ))}

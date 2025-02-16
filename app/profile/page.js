@@ -1,12 +1,11 @@
 "use client";
-import React, { useState } from "react";
-import profile from "/public/profile.jpg";
+import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
+import profile from "/public/profile.jpg";
 import "../login/login.css";
 import Button from "../components/Button";
 import { useUser } from "../UserContext";
-import { imagefrombuffer } from "imagefrombuffer";
-import Header from "./../components/Header";
+import Header from "../components/Header";
 
 const imageStyle = {
   borderRadius: "50%",
@@ -17,17 +16,34 @@ const Page = () => {
   const { userData, setUserData } = useUser();
 
   const [user, setUser] = useState({
-    name: userData.user?.name || "",
-    email: userData.user?.email || "",
-    password: userData.user?.password || "",
-    profilePicture: userData.user?.profilePicture || null,
+    name: userData.name || "",
+    email: userData.email || "",
+    password: userData.password || "",
+    profilePicture: userData.profilePicture || null,
   });
-  const [previewImage, setPreviewImage] = useState(
-    imagefrombuffer({
-      type: user.profilePicture?.contentType,
-      data: user.profilePicture?.data?.data,
-    })
-  );
+
+  const [previewImage, setPreviewImage] = useState(null);
+
+  // Convert buffer to Blob URL (if applicable)
+  const convertToBlobUrl = useCallback((profilePicture) => {
+    if (!profilePicture?.data?.data) return profile;
+    const blob = new Blob([new Uint8Array(profilePicture.data.data)], {
+      type: profilePicture.contentType || "image/jpeg",
+    });
+    return URL.createObjectURL(blob);
+  }, []);
+
+  // Set profile picture preview on mount (if available)
+  useEffect(() => {
+    if (user.profilePicture && !previewImage) {
+      const blobUrl = convertToBlobUrl(user.profilePicture);
+      setPreviewImage(blobUrl);
+    }
+
+    return () => {
+      if (previewImage) URL.revokeObjectURL(previewImage);
+    };
+  }, [user.profilePicture, previewImage, convertToBlobUrl]);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -36,7 +52,9 @@ const Page = () => {
       formData.append("name", user.name);
       formData.append("email", user.email);
       formData.append("password", user.password);
-      formData.append("profilePicture", e.target[0].files[0]);
+      if (e.target.profilePicture.files[0]) {
+        formData.append("profilePicture", e.target.profilePicture.files[0]);
+      }
 
       const response = await fetch(
         `https://server-hush.vercel.app/user/${userData.user._id}`,
@@ -45,8 +63,12 @@ const Page = () => {
           body: formData,
         }
       );
+
+      if (!response.ok) throw new Error("Failed to update profile.");
+
       const data = await response.json();
-      console.log("data", data);
+      console.log("Updated user:", data);
+
       setUserData({
         user: { ...userData.user, profilePicture: previewImage, ...user },
       });
@@ -54,6 +76,7 @@ const Page = () => {
       console.error("Error updating user data:", error);
     }
   };
+
   const handleDeleteAccount = async () => {
     try {
       const response = await fetch(
@@ -62,8 +85,10 @@ const Page = () => {
           method: "DELETE",
         }
       );
+
       const data = await response.json();
       console.log("Account deleted:", data);
+
       if (data.message === "User deleted successfully") {
         window.location.href = "/login";
       }
@@ -72,60 +97,51 @@ const Page = () => {
     }
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Validate file size
+    if (file.size > 15000) {
+      alert("Image size exceeds 15KB. Please choose a smaller image.");
+      return;
+    }
+
+    // Read file as DataURL
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setUser((prevUser) => ({ ...prevUser, profilePicture: reader.result }));
+      setPreviewImage(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
+
   return (
     <>
       <Header />
+      <div className="flex flex-col items-center" style={{ overflowX: "hidden" }}>
+        <h1 className="text-lg p-5" id="title">Profile</h1>
 
-      <div
-        className=" flex flex-row items-center flex-col"
-        style={{ overflowX: "hidden" }}
-      >
-        <h1 className="text-lg p-5" id="title">
-          Profile
-        </h1>
+        {/* Profile Picture */}
         <div>
-          {user.profilePicture && (
-            <div suppressHydrationWarning>
-              <Image
-                src={previewImage || profile}
-                alt="Profile"
-                height={250}
-                width={250}
-                style={imageStyle}
-              />
-            </div>
-          )}
+          <Image
+            src={previewImage || profile}
+            alt="Profile"
+            height={250}
+            width={250}
+            style={imageStyle}
+          />
         </div>
 
+        {/* Profile Form */}
         <div className="h-dvh w-dvw text-white-500 text-center p-10">
           <form className="mt-7 text-black" onSubmit={handleFormSubmit}>
             <input
               type="file"
-              className="text-sm text-slate-500
-              file:mr-4 file:py-2 file:px-4
-              file:rounded-full file:border-0
-              file:text-lg
-              file:bg-violet-50 file:text-violet-700
-              hover:file:bg-violet-100"
-              onChange={(e) => {
-                const file = e.target.files[0];
-                if (file && file.size > 15000) {
-                  alert(
-                    "Image size exceeds 15KB. Please choose a smaller image."
-                  );
-                  e.target.value = null;
-                  return;
-                }
-
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                  setUser({ ...user, profilePicture: reader.result });
-                  setPreviewImage(reader.result);
-                };
-                reader.readAsDataURL(file);
-              }}
+              name="profilePicture"
+              className="text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-lg file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
+              onChange={handleFileChange}
             />
-
             <br />
             <input
               type="text"
@@ -137,7 +153,6 @@ const Page = () => {
             <br />
             <input
               type="email"
-              name="Email"
               className="text-input"
               value={user.email}
               onChange={(e) => setUser({ ...user, email: e.target.value })}
@@ -146,17 +161,19 @@ const Page = () => {
             <br />
             <input
               type="password"
-              name="password"
               className="text-input"
               value={user.password}
               onChange={(e) => setUser({ ...user, password: e.target.value })}
               placeholder="Password"
             />
 
+            {/* Save Button */}
             <div className="mt-28 btn">
               <Button name="Save" bg="white" color="black" type="submit" />
             </div>
           </form>
+
+          {/* Delete Account Button */}
           <Button
             name="Delete Account"
             onClick={handleDeleteAccount}
