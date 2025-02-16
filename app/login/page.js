@@ -18,7 +18,7 @@ const Page = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    setUserData(null); //setting user data to null
+    setUserData(null);
   }, []);
 
   const handleFormSubmit = async (e) => {

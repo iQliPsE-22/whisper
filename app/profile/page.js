@@ -6,7 +6,7 @@ import "../login/login.css";
 import Button from "../components/Button";
 import { useUser } from "../UserContext";
 import { imagefrombuffer } from "imagefrombuffer";
-import Header from './../components/Header';
+import Header from "./../components/Header";
 
 const imageStyle = {
   borderRadius: "50%",
@@ -74,7 +74,7 @@ const Page = () => {
 
   return (
     <>
-      <Header/>
+      <Header />
 
       <div
         className=" flex flex-row items-center flex-col"
@@ -113,7 +113,7 @@ const Page = () => {
                   alert(
                     "Image size exceeds 15KB. Please choose a smaller image."
                   );
-                  e.target.value = null; // Clear the file input
+                  e.target.value = null;
                   return;
                 }
 

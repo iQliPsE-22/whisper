@@ -132,10 +132,10 @@ const Page = ({ params }) => {
       <div>
         <Chat
           imgSrc={imagefrombuffer({
-            type: friend.profilePicture?.contentType || "image/jpeg",
-            data: friend.profilePicture?.data?.data || img,
+            type: friend?.profilePicture?.contentType || "image/jpeg",
+            data: friend?.profilePicture?.data?.data || img,
           })}
-          userName={friend.name}
+          userName={friend?.name}
           bg="bg-[#e11d48]"
         />
       </div>
