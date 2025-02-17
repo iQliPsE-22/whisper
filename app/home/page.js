@@ -7,11 +7,9 @@ import { useUser } from "../UserContext";
 import img from "../../public/pic.jpg";
 
 const Page = () => {
-  const [contacts, setContacts] = useState([]);
   const { userData } = useUser();
-  const [info, setInfo] = useState([]);
+  const [friends, setFriends] = useState([]);
 
-  // Fetch contacts from API
   const fetchContacts = async () => {
     try {
       const response = await fetch("https://server-hush.vercel.app/chats");
@@ -33,63 +31,30 @@ const Page = () => {
         ),
       ];
       console.log("Unique Contacts:", uniqueContacts);
-      setContacts(uniqueContacts);
+      const friendsList = userData.myfriends.filter((friend) =>
+        uniqueContacts.includes(friend.name)
+      );
+      setFriends(friendsList);
     } catch (error) {
       console.log("Error fetching contacts:", error);
     }
   };
 
-  // Fetch contact details including profile picture
-  const fetchContactInfo = async (contact) => {
-    try {
-      const response = await fetch(
-        `https://server-hush.vercel.app/user/${contact}`
-      );
-      const data = await response.json();
-
-      if (!info.some((item) => item.name === contact)) {
-        if (data.profilePicture?.data) {
-          const blob = new Blob(
-            [new Uint8Array(data.profilePicture.data.data)],
-            {
-              type: data.profilePicture.contentType || "image/jpeg",
-            }
-          );
-          data.imageURL = URL.createObjectURL(blob);
-        } else {
-          data.imageURL = img.src; // Fallback to default image
-        }
-
-        setInfo((prevInfo) => [...prevInfo, data]);
-      }
-    } catch (error) {
-      console.log("Error fetching contact info:", error);
-    }
-  };
-
-  // Fetch user contacts on mount
   useEffect(() => {
     fetchContacts();
   }, [userData.name]);
-
-  // Fetch contact details whenever contacts list updates
-  useEffect(() => {
-    contacts.forEach((contact) => {
-      fetchContactInfo(contact);
-    });
-  }, [contacts]);
 
   return (
     <>
       <Header />
       <div className="mt-1">
-        {info.map(
+        {friends.map(
           (contact) =>
             contact && (
               <Chat
                 key={contact._id}
                 userName={contact.name}
-                imgSrc={contact.imageURL}
+                imgSrc={contact.profilePicture}
               />
             )
         )}

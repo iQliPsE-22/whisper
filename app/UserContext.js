@@ -10,9 +10,21 @@ export const UserProvider = ({ children }) => {
       const storedUserData = localStorage.getItem("userData");
       return storedUserData
         ? JSON.parse(storedUserData)
-        : { name: "", email: "", password: "", profilePicture: null };
+        : {
+            name: "",
+            email: "",
+            password: "",
+            profilePicture: null,
+            myfriends: [],
+          };
     } else {
-      return { name: "", email: "", password: "", profilePicture: null };
+      return {
+        name: "",
+        email: "",
+        password: "",
+        profilePicture: null,
+        myfriends: [],
+      };
     }
   });
 

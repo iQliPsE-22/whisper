@@ -14,6 +14,7 @@ const Page = () => {
     }, 2000);
     return () => clearTimeout(timeout);
   }, [router]);
+
   return (
     <div className="h-screen w-screen text-center flex items-center justify-center">
       <Loading />

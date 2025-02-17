@@ -1,15 +1,15 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import Image from "next/image";
+import React, { useState, useEffect, useCallback } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import "./login.css";
 import { useRouter } from "next/navigation";
 import { useUser } from "../UserContext";
-import Loading from "./../components/Loading";
+import Loading from "../components/Loading";
 import { jwtDecode } from "jwt-decode";
+import "./login.css";
 
 const Button = dynamic(() => import("../components/Button"), { ssr: false });
+
 const Page = () => {
   const router = useRouter();
   const { userData, setUserData } = useUser();
@@ -18,41 +18,62 @@ const Page = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    setUserData(null);
+    setError(""); // Clear previous errors when the component mounts
   }, []);
 
   const handleFormSubmit = async (e) => {
-    //function to handle form submission
     e.preventDefault();
     setShowLoading(true);
+    setError("");
 
     try {
-      console.log("Login Attempted");
       const response = await fetch("https://server-hush.vercel.app/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(credentials),
       });
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Login Successful");
-        const decodedToken = jwtDecode(data.token);
-        console.log("User Data from Token:", decodedToken);
-        setUserData(decodedToken);
-        router.push("/home");
-      } else {
-        const data = await response.json();
-        setShowLoading(false);
-        console.error("Login Failed:", data.message);
-        setError(data.message);
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Login failed");
       }
+
+      const decodedToken = jwtDecode(data.token);
+      setUserData(decodedToken);
+
+      await fetchAllContacts();
+      router.push("/home");
     } catch (err) {
-      console.error("Login Failed:", err);
-      setError("An error occurred while logging in.");
+      console.error("Login Error:", err);
+      setError(err.message);
+    } finally {
+      setShowLoading(false);
     }
   };
+
+  const fetchAllContacts = useCallback(async () => {
+    try {
+      const response = await fetch("https://server-hush.vercel.app/search");
+      if (!response.ok) throw new Error("Failed to fetch contacts");
+
+      const data = await response.json();
+      const updatedFriends = data.map((friend) => {
+        if (friend.profilePicture) {
+          const blob = new Blob(
+            [new Uint8Array(friend.profilePicture.data.data)],
+            { type: friend.profilePicture.contentType }
+          );
+          friend.profilePicture = URL.createObjectURL(blob);
+        }
+        return friend;
+      });
+
+      setUserData((prev) => ({ ...prev, myfriends: updatedFriends }));
+    } catch (error) {
+      console.error("Error fetching contacts:", error);
+    }
+  }, [setUserData]);
 
   return (
     <>
@@ -71,7 +92,7 @@ const Page = () => {
                 placeholder="Email"
                 value={credentials.email}
                 onChange={(e) =>
-                  setCredentials({ ...credentials, email: e.target.value })
+                  setCredentials((prev) => ({ ...prev, email: e.target.value }))
                 }
                 required
               />
@@ -83,7 +104,10 @@ const Page = () => {
                 placeholder="Password"
                 value={credentials.password}
                 onChange={(e) =>
-                  setCredentials({ ...credentials, password: e.target.value })
+                  setCredentials((prev) => ({
+                    ...prev,
+                    password: e.target.value,
+                  }))
                 }
                 required
               />
