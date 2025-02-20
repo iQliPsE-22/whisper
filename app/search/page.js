@@ -8,17 +8,17 @@ import { useUser } from "../UserContext";
 const Page = () => {
   const [keyword, setKeyword] = useState("");
   const { userData } = useUser();
-  const [filteredFriends, setFilteredFriends] = useState(userData.myfriends || []);
+  const [filteredFriends, setFilteredFriends] = useState(userData.allusers || []);
   useEffect(() => {
     if (keyword.trim() === "") {
-      setFilteredFriends(userData.myfriends);
+      setFilteredFriends(userData.allusers);
     } else {
-      const results = userData.myfriends.filter((friend) =>
+      const results = userData.allusers.filter((friend) =>
         friend.name.toLowerCase().includes(keyword.toLowerCase())
       );
       setFilteredFriends(results);
     }
-  }, [keyword, userData.myfriends]);
+  }, [keyword, userData.allusers]);
 
   return (
     <>

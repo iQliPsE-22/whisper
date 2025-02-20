@@ -57,7 +57,7 @@ const Page = () => {
       }
 
       const response = await fetch(
-        `https://server-hush.vercel.app/user/${userData.user._id}`,
+        `https://server-hush.vercel.app/user/${userData.id}`,
         {
           method: "PUT",
           body: formData,
@@ -70,7 +70,12 @@ const Page = () => {
       console.log("Updated user:", data);
 
       setUserData({
-        user: { ...userData.user, profilePicture: previewImage, ...user },
+        user: {
+          ...userData,
+          name: user.name,
+          email: user.email,
+          profilePicture: previewImage,
+        },
       });
     } catch (error) {
       console.error("Error updating user data:", error);
@@ -80,7 +85,7 @@ const Page = () => {
   const handleDeleteAccount = async () => {
     try {
       const response = await fetch(
-        `https://hush-server.onrender.com/user/${userData.user._id}`,
+        `https://hush-server.onrender.com/user/${userData.id}`,
         {
           method: "DELETE",
         }
@@ -119,8 +124,13 @@ const Page = () => {
   return (
     <>
       <Header />
-      <div className="flex flex-col items-center" style={{ overflowX: "hidden" }}>
-        <h1 className="text-lg p-5" id="title">Profile</h1>
+      <div
+        className="flex flex-col items-center"
+        style={{ overflowX: "hidden" }}
+      >
+        <h1 className="text-lg p-5" id="title">
+          Profile
+        </h1>
 
         {/* Profile Picture */}
         <div>

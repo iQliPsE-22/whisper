@@ -15,6 +15,7 @@ export const UserProvider = ({ children }) => {
             email: "",
             password: "",
             profilePicture: null,
+            allusers: [],
             myfriends: [],
           };
     } else {
@@ -23,6 +24,7 @@ export const UserProvider = ({ children }) => {
         email: "",
         password: "",
         profilePicture: null,
+        allusers: [],
         myfriends: [],
       };
     }

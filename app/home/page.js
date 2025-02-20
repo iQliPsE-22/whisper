@@ -7,7 +7,7 @@ import { useUser } from "../UserContext";
 import img from "../../public/pic.jpg";
 
 const Page = () => {
-  const { userData } = useUser();
+  const { userData, setUserData } = useUser();
   const [friends, setFriends] = useState([]);
 
   const fetchContacts = async () => {
@@ -31,9 +31,10 @@ const Page = () => {
         ),
       ];
       console.log("Unique Contacts:", uniqueContacts);
-      const friendsList = userData.myfriends.filter((friend) =>
+      const friendsList = userData.allusers.filter((friend) =>
         uniqueContacts.includes(friend.name)
       );
+      setUserData({ ...userData, myfriends: [...friendsList] });
       setFriends(friendsList);
     } catch (error) {
       console.log("Error fetching contacts:", error);

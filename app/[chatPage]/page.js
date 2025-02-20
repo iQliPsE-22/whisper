@@ -15,8 +15,9 @@ const Page = ({ params }) => {
   const [friend, setFriend] = useState({});
 
   const sender = userData.name || "";
-
   const recipient = params.chatPage;
+  console.log("recipient", recipient);
+
   const [messages, setMessages] = useState([]);
   const [socket, setSocket] = useState(null);
   const [isUser, setIsUser] = useState(false);
@@ -103,27 +104,15 @@ const Page = ({ params }) => {
     };
   }, [socket]);
 
-  const fetchUser = async () => {
-    try {
-      const response = await fetch("https://hush-server.onrender.com/search");
-      const data = await response.json();
-      const foundFriend = data.find((friend) => friend.name === recipient);
-      if (foundFriend && foundFriend.profilePicture) {
-        const blob = new Blob(
-          [new Uint8Array(foundFriend.profilePicture.data.data)],
-          { type: foundFriend.profilePicture.contentType }
-        );
-        foundFriend.profilePicture = URL.createObjectURL(blob);
-      }
-      setFriend(foundFriend);
-      console.log("Friend data:", foundFriend);
-    } catch (error) {
-      console.error("Error fetching friend data:", error);
-    }
-  };
+  useEffect(() => {
+    const friendData = userData.myfriends.find(
+      (friend) => friend.name === recipient
+    );
+    setFriend(friendData || {});
+    console.log(friend);
+  }, [userData, recipient, friend]);
 
   useEffect(() => {
-    fetchUser();
     scrollToBottom();
   }, [messages.length]);
 

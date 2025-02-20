@@ -69,7 +69,7 @@ const Page = () => {
         return friend;
       });
 
-      setUserData((prev) => ({ ...prev, myfriends: updatedFriends }));
+      setUserData((prev) => ({ ...prev, allusers: updatedFriends }));
     } catch (error) {
       console.error("Error fetching contacts:", error);
     }

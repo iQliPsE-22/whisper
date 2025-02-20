@@ -27,8 +27,8 @@ const Hamburger = ({ isOpen, onClose }) => {
 
   const handleLogout = () => {
     setUserData(null);
-    onClose();
     router.push("/login");
+    onClose();
   };
 
   return (
