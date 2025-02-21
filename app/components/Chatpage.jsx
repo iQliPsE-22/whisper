@@ -118,7 +118,7 @@ const Chatpage = ({ currentChat }) => {
 
       <form
         onSubmit={handleMessages}
-        className="w-full lg:w-[73%] fixed bottom-0 pb-0 p-4 gap-2 flex flex-row bg-black"
+        className="w-full lg:w-[73%] fixed bottom-0 pb-2 lg:pb-0 p-4 gap-2 flex flex-row bg-black"
       >
         <input
           type="text"
