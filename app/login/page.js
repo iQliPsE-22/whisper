@@ -43,7 +43,7 @@ const Page = () => {
       setUserData(decodedToken);
 
       await fetchAllContacts();
-      router.push("/home");
+      router.push("/");
     } catch (err) {
       console.error("Login Error:", err);
       setError(err.message);

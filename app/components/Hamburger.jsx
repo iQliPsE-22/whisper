@@ -1,94 +1,56 @@
 "use client";
-import React, { useEffect } from "react";
-import Button from "../components/Button";
+import React, { useState, useEffect } from "react";
 import { useUser } from "../UserContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import close from "../../public/close.png";
+import Chat from "./Chat";
 
-const Hamburger = ({ isOpen, onClose }) => {
-  const { setUserData } = useUser();
-  const router = useRouter();
-
+const Hamburger = ({ setCurrentChat }) => {
+  const [keyword, setKeyword] = useState("");
+  const { userData } = useUser();
+  const [filteredFriends, setFilteredFriends] = useState(
+    userData.allusers || []
+  );
   useEffect(() => {
-    const handleOutsideClick = (event) => {
-      const target = event.target;
-      if (!target.closest(".hamburger-menu")) {
-        onClose();
-      }
-    };
-
-    document.addEventListener("mousedown", handleOutsideClick);
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
-  }, [onClose]);
-
-  const handleLogout = () => {
-    setUserData(null);
-    router.push("/login");
-    onClose();
-  };
+    if (keyword.trim() === "") {
+      setFilteredFriends(userData.allusers);
+    } else {
+      const results = userData.allusers.filter((friend) =>
+        friend.name.toLowerCase().includes(keyword.toLowerCase())
+      );
+      setFilteredFriends(results);
+    }
+  }, [keyword, userData.allusers]);
 
   return (
-    <div
-      className={`fixed top-0 h-full bg-black text-white p-4 w-10/12 lg:w-1/3 transition-transform duration-300 transform ${
-        isOpen ? "translate-x-0" : "-translate-x-full"
-      } hamburger-menu`}
-    >
-      <div className = "w-full flex justify-between">
-        <h1 className="julius w-full text-xl text-center p-4 underline md:text-2xl">
-          LOST YOUR WAY?
-        </h1>
-        <div className="flex-end ">
-          <Image
-            src={close}
-            alt="close"
-            onClick={onClose}
-            className="h-8 w-8 cursor-pointer m-2"
+    <div className="h-dvh w-full bg-black text-white pl-2 pr-2 p-4 border-r-2">
+      <section className="p-2">
+        <form onSubmit={(e) => e.preventDefault()} className="mt-1">
+          <input
+            type="text"
+            className="w-full h-12 text-black text-center mb-1 outline-none rounded-lg"
+            placeholder="Search"
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
           />
+        </form>
+        <div className="mt-8">
+          {filteredFriends.length > 0 ? (
+            filteredFriends.map((friend) => (
+              <Chat
+                key={friend._id}
+                imgSrc={friend.profilePicture}
+                userName={friend.name}
+                setCurrentChat={setCurrentChat}
+              />
+            ))
+          ) : (
+            <p className="text-center text-gray-500 mt-2">No friends found</p>
+          )}
         </div>
-      </div>
-      <div className=" h-full flex flex-col justify-around">
-        <ul className="h-fit flex flex-col justify-between ">
-          <div className="p-4 julius text-center">
-            <Link
-              href="/home"
-              className="block m-4 bg-[#404040] p-3 rounded hover:bg-[#303030] cursor-pointer"
-            >
-              Home
-            </Link>
-            <Link
-              href="/search"
-              className="block m-4 bg-[#404040] p-3 rounded hover:bg-[#303030] cursor-pointer"
-            >
-              Search
-            </Link>
-
-            <Link
-              href="https://www.iqlipse.studio/"
-              className="block m-4 bg-[#404040] p-3 rounded hover:bg-[#303030] cursor-pointer"
-            >
-              Contact Us
-            </Link>
-          </div>
-        </ul>
-        <div className="julius">
-          <Link
-            href="/profile"
-            className="block text-center m-4 bg-[#404040] p-3 rounded hover:bg-[#303030] cursor-pointer"
-          >
-            <button className="julius">Profile</button>
-          </Link>
-          <Link
-            href="/login"
-            className="block text-center m-4 bg-red-600 p-3 rounded hover:bg-red-700 cursor-pointer"
-          >
-            <button onClick={handleLogout}>Logout</button>
-          </Link>
-        </div>
-      </div>
+      </section>
     </div>
   );
 };

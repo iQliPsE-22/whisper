@@ -1,12 +1,12 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Header from "./../components/Header";
-import Chat from "./../components/Chat";
+import Chat from "./Chat";
 import Link from "next/link";
 import { useUser } from "../UserContext";
 import img from "../../public/pic.jpg";
+import Header from './Header';
 
-const Page = () => {
+const Home = () => {
   const { userData, setUserData } = useUser();
   const [friends, setFriends] = useState([]);
 
@@ -48,7 +48,7 @@ const Page = () => {
   return (
     <>
       <Header />
-      <div className="mt-1">
+      <div className="mt-1 p-2">
         {friends.map(
           (contact) =>
             contact && (
@@ -72,4 +72,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default Home;

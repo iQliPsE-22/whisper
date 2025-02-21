@@ -10,7 +10,7 @@ import open from "../../public/open.png"; // Correct import
 
 const Header = () => {
   const { userData } = useUser();
-  const [showHamburger, setShowHamburger] = useState(false);
+  const [showHamburger, setShowHamburger] = useState(true);
   const [profileImage, setProfileImage] = useState(profile); // Default profile image
 
   useEffect(() => {
@@ -32,7 +32,7 @@ const Header = () => {
 
   return (
     <>
-      <Hamburger isOpen={showHamburger} onClose={() => setShowHamburger(false)} />
+      {/* <Hamburger isOpen={showHamburger} onClose={() => setShowHamburger(false)} /> */}
       <div className="flex justify-between items-center p-2 shadow shadow-white">
         <div className="ml-2 h-10 w-10 md:h-16 md:w-16 rounded-full flex items-center justify-center">
           <button onClick={() => setShowHamburger(!showHamburger)}>

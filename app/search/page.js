@@ -8,7 +8,9 @@ import { useUser } from "../UserContext";
 const Page = () => {
   const [keyword, setKeyword] = useState("");
   const { userData } = useUser();
-  const [filteredFriends, setFilteredFriends] = useState(userData.allusers || []);
+  const [filteredFriends, setFilteredFriends] = useState(
+    userData.allusers || []
+  );
   useEffect(() => {
     if (keyword.trim() === "") {
       setFilteredFriends(userData.allusers);

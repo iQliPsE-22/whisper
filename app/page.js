@@ -1,24 +1,35 @@
 "use client";
-import Image from "next/image";
-import dynamic from "next/dynamic";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import logo from "../public/whisper.svg";
+import React, { useState } from "react";
+import { useUser } from "./UserContext";
 import Header from "./components/Header";
-import Loading from "./components/Loading";
+import Hamburger from "./components/Hamburger";
+import Chatpage from "./components/Chatpage";
+import Home from "./components/Home";
+
 const Page = () => {
-  const router = useRouter();
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      router.push("/login");
-    }, 2000);
-    return () => clearTimeout(timeout);
-  }, [router]);
+  const { userData } = useUser();
+  const [currentChat, setCurrentChat] = useState("");
 
   return (
-    <div className="h-screen w-screen text-center flex items-center justify-center">
-      <Loading />
-    </div>
+    <main className="flex min-h-screen w-screen overflow-hidden">
+      <aside className="w-[27%] h-screen fixed top-0 left-0 lg:block hidden">
+        <Hamburger setCurrentChat={setCurrentChat} />
+      </aside>
+
+      <section className="hidden lg:flex flex-col flex-1 lg:ml-[27%] h-screen overflow-y-auto">
+        <Header />
+        {currentChat === "" ? (
+          <div className="flex items-center justify-center h-full">
+            <h1 className="text-gray-400 text-lg">Start a new Chat</h1>
+          </div>
+        ) : (
+          <Chatpage currentChat={currentChat} />
+        )}
+      </section>
+      <section className="w-full block lg:hidden">
+        <Home />
+      </section>
+    </main>
   );
 };
 
