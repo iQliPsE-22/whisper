@@ -18,7 +18,7 @@ const Page = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    setError(""); // Clear previous errors when the component mounts
+    setError("");
   }, []);
 
   const handleFormSubmit = async (e) => {
@@ -60,11 +60,21 @@ const Page = () => {
       const data = await response.json();
       const updatedFriends = data.map((friend) => {
         if (friend.profilePicture) {
-          const blob = new Blob(
-            [new Uint8Array(friend.profilePicture.data.data)],
-            { type: friend.profilePicture.contentType }
-          );
-          friend.profilePicture = URL.createObjectURL(blob);
+          const cachedImage = localStorage.getItem(`profile-${friend._id}`);
+          if (cachedImage) {
+            // Use cached image
+            friend.profilePicture = cachedImage;
+          } else {
+            // Convert binary data to base64 and store in localStorage
+            const base64Image = `data:${
+              friend.profilePicture.contentType
+            };base64,${Buffer.from(friend.profilePicture.data.data).toString(
+              "base64"
+            )}`;
+
+            localStorage.setItem(`profile-${friend._id}`, base64Image);
+            friend.profilePicture = base64Image;
+          }
         }
         return friend;
       });
